@@ -2,6 +2,7 @@ package com.tomtruyen.pokedex.ui.screens.home
 import com.tomtruyen.pokedex.ui.shared.components.Error
 
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,14 +29,8 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
         Error(error = error)
     } else {
         LazyColumn {
-            item {
-                Text(text = pokemon.size.toString())
-            }
-            item {
-                Text(text = error)
-            }
-            item {
-                PokedexItem()
+            itemsIndexed(items = pokemon) {i, entry ->
+                PokedexItem(pokemon = entry)
             }
         }
     }
