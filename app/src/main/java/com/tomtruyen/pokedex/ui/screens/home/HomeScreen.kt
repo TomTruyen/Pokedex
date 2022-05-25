@@ -63,6 +63,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                         .padding(16.dp)
                 ) {
                     Text(
+                        modifier = Modifier.padding(bottom = 20.dp),
                         text = "Pokédex",
                         style = TextStyle(
                             fontSize = 34.sp,
@@ -70,7 +71,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                             color = colorResource(id = R.color.dark_one)
                         )
                     )
-                    Text(text = "Search")
+                    Search(value = "Hi", placeholder = "Pokémon zoeken")
                     Row(
                         modifier = Modifier.padding(vertical = 20.dp)
                     ) {
