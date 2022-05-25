@@ -26,6 +26,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
     val pokemon by remember { viewModel.pokemon }
     val isLoading by remember { viewModel.isLoading }
     val error by remember { viewModel.error }
+    val searchQuery by remember { viewModel.searchQuery }
 
     if(isLoading) {
         Loader()
@@ -71,7 +72,13 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                             color = colorResource(id = R.color.dark_one)
                         )
                     )
-                    Search(value = "Hi", placeholder = "Pokémon zoeken")
+                    Search(
+                        value = searchQuery,
+                        placeholder = "Pokémon zoeken",
+                        onValueChange =  {
+                            viewModel.search(it)
+                        }
+                    )
                     Row(
                         modifier = Modifier.padding(vertical = 20.dp)
                     ) {
