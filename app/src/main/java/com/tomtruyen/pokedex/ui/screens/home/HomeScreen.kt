@@ -14,7 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.shared.components.*
 
@@ -59,7 +62,15 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {
-                    Text(text = "Search & Cards")
+                    Text(
+                        text = "Pokédex",
+                        style = TextStyle(
+                            fontSize = 34.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.dark_one)
+                        )
+                    )
+                    Text(text = "Search")
                     Row(
                         modifier = Modifier.padding(vertical = 20.dp)
                     ) {
