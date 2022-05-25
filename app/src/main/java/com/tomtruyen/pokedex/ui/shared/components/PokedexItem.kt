@@ -35,7 +35,7 @@ fun PokedexItem(pokemon: Pokemon) {
             .padding(vertical = 5.dp),
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.White,
-        elevation = 0.dp,
+        elevation = 1.dp,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
