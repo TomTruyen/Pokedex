@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -20,7 +19,6 @@ import com.tomtruyen.pokedex.R
 
 @Composable
 fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) {
-    var text = value
 
     BasicTextField(
         textStyle = LocalTextStyle.current.copy(
@@ -46,10 +44,12 @@ fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) 
                     contentDescription = null,
                     tint = Color(60, 60, 67, 153)
                 )
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 6.dp)) {
-                    if (text.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 6.dp)
+                ) {
+                    if (value.isEmpty()) {
                         Text(
                             placeholder,
                             style = LocalTextStyle.current.copy(
@@ -60,7 +60,7 @@ fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) 
 
                     innerTextField()
                 }
-                if (text.isNotEmpty()) {
+                if (value.isNotEmpty()) {
                     IconButton(
                         onClick = {
                             onValueChange("")
@@ -76,7 +76,7 @@ fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) 
                 }
             }
         },
-        value = text,
+        value = value,
         onValueChange = {
             onValueChange(it)
         },
