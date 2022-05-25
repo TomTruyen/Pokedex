@@ -23,6 +23,7 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
@@ -40,15 +41,14 @@ fun PokedexItem(pokemon: Pokemon) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(16.dp)
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(pokemon.sprites["front_default"]),
+            AsyncImage(
+                model = pokemon.sprites["front_default"],
                 contentDescription = null,
                 modifier = Modifier
                     .height(50.dp)
                     .width(50.dp)
                     .padding(end = 16.dp),
                 alignment = Alignment.Center
-
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
