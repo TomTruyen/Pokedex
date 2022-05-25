@@ -12,24 +12,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
 
 @Composable
-fun Search(value: String, placeholder: String) {
+fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) {
     var text = value
 
     BasicTextField(
+        textStyle = LocalTextStyle.current.copy(
+            color = colorResource(id = R.color.dark_one)
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = colorResource(id = R.color.light_grey),
+                color = colorResource(id = R.color.background_light_grey),
                 shape = RoundedCornerShape(10.dp),
             )
-            .padding(8.dp)
-        ,
+            .padding(8.dp),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Search
@@ -43,8 +46,9 @@ fun Search(value: String, placeholder: String) {
                     contentDescription = null,
                     tint = Color(60, 60, 67, 153)
                 )
-                Spacer(modifier = Modifier.width(6.dp))
-                Box(modifier = Modifier.weight(1f)) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 6.dp)) {
                     if (text.isEmpty()) {
                         Text(
                             placeholder,
@@ -56,11 +60,25 @@ fun Search(value: String, placeholder: String) {
 
                     innerTextField()
                 }
+                if (text.isNotEmpty()) {
+                    IconButton(
+                        onClick = {
+                            onValueChange("")
+                        },
+                        Modifier.size(22.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_close),
+                            contentDescription = null,
+                            tint = Color(60, 60, 67, 153),
+                        )
+                    }
+                }
             }
         },
         value = text,
         onValueChange = {
-            text = it
+            onValueChange(it)
         },
     )
 }
