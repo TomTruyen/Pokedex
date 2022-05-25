@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#919698</color>
+    <color name="dark_one">#1F2029</color>
 
     <!--  Pokemon type colors  -->
     <color name="water">#4592C3</color>
