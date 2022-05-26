@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.ui.graphics.Color
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -32,8 +33,8 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    val systemUiController = rememberSystemUiController()
-                    systemUiController.setStatusBarColor(MaterialTheme.colors.background)
+//                    val systemUiController = rememberSystemUiController()
+//                    systemUiController.setStatusBarColor(Color.Transparent)
 
                     AnimatedNavHost(
                         navController = navController,
