@@ -15,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.ui.shared.components.*
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
+fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
@@ -205,7 +206,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
                         }
                         LazyColumn {
                             itemsIndexed(items = pokemon) { _, entry ->
-                                PokedexItem(pokemon = entry)
+                                PokedexItem(pokemon = entry, navController = navController)
                             }
                         }
                     }
