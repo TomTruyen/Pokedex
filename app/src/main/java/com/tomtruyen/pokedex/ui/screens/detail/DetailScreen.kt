@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -34,7 +35,7 @@ import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
-fun DetailScreen(navController: NavController, viewModel: DetailScreenViewModel) {
+fun DetailScreen(navController: NavHostController, viewModel: DetailScreenViewModel) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
     val pokemon by remember { viewModel.pokemon }
@@ -63,52 +64,16 @@ fun DetailScreen(navController: NavController, viewModel: DetailScreenViewModel)
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
                 toolbar = {
                     // Calculate the textSize based on the current state of the toolbar
-                    val textSize = (17 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
+                    val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(125.dp)
-                            .pin()
-                            .background(color = Color.Transparent)
+                    DetailToolbar(
+                        pokemon = it,
+                        textSize = textSize,
+                        navController = navController,
+                        onFavorite = {
+                            println("Favorite press")
+                        }
                     )
-
-                    IconButton(
-                        modifier = Modifier.road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.TopStart),
-                        onClick = { navController.popBackStack() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-
-                    Text(
-                        text = it.name.replaceFirstChar { it.uppercase() },
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = textSize,
-                            color = Color.White
-                        ),
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .road(
-                                whenCollapsed = Alignment.TopCenter,
-                                whenExpanded = Alignment.BottomStart
-                            )
-                    )
-
-                    IconButton(
-                        modifier = Modifier.road(whenCollapsed = Alignment.TopEnd, whenExpanded = Alignment.TopEnd),
-                        onClick = {   }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.FavoriteBorder,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
                 }
             ) {
                 Column(
