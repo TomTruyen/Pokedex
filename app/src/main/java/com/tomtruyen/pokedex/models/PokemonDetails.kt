@@ -8,6 +8,7 @@ data class PokemonDetails(
     val sprites: Map<String, Any>,
     val types: List<PokemonType>,
     val stats: List<PokemonStatistic>,
+    val moves: List<PokemonMove>,
     val height: Int,
     val weight: Int
 )
