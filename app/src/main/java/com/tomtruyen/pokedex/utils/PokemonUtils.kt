@@ -4,6 +4,19 @@ import com.tomtruyen.pokedex.R
 
 class PokemonUtils {
     companion object {
+        fun getStatDisplayName(statistic: PokemonStatistic): String {
+            val name = statistic.stat["name"] ?: return ""
+
+            return when(name.lowercase()) {
+                "hp" -> "HP"
+                "attack" -> "Attack"
+                "defense" -> "Defense"
+                "special-attack" -> "Sp. Atk"
+                "special-defense" -> "Sp. Def"
+                "speed" -> "Speed"
+                else -> "Total"
+            }
+        }
         fun getTypeColor(type: String): Int {
             return when (type.lowercase()) {
                 "grass" -> R.color.grass
