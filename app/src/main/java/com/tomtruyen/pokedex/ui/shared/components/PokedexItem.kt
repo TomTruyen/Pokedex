@@ -2,6 +2,8 @@ package com.tomtruyen.pokedex.ui.shared.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -15,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.models.Pokemon
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -23,23 +26,27 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.tomtruyen.pokedex.ui.screens.ScreenUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 @Composable
-fun PokedexItem(pokemon: Pokemon) {
+fun PokedexItem(pokemon: Pokemon, navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp),
         shape = RoundedCornerShape(10.dp),
-        backgroundColor = Color.White,
-        elevation = 1.dp,
+        elevation = 2.dp,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.clickable {
+                    navController.navigate(ScreenUtils.toDetail(pokemon.id))
+                }
+                .padding(16.dp)
         ) {
             AsyncImage(
                 model = pokemon.sprites["front_default"],
