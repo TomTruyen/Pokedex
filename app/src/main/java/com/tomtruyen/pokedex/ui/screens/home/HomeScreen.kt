@@ -1,13 +1,18 @@
 package com.tomtruyen.pokedex.ui.screens.home
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -20,7 +25,11 @@ import androidx.navigation.NavHostController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.ui.shared.components.*
+import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.launch
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @ExperimentalMaterialApi
 @Composable
@@ -28,6 +37,9 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeScreenViewModel)
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
+
+    val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+
     val coroutineScope = rememberCoroutineScope()
 
     val pokemon by remember { viewModel.pokemon }
@@ -56,92 +68,122 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeScreenViewModel)
                 )
             }
         ) {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        backgroundColor = MaterialTheme.colors.background,
-                        elevation = 0.dp,
-                        title = { },
-                        actions = {
-                            IconButton(onClick = { /*TODO*/ }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_filter),
-                                    contentDescription = null,
-                                    tint = colorResource(id = R.color.dark_one)
-                                )
-                            }
-                            IconButton(
-                                onClick = {
-                                    coroutineScope.launch {
-                                        sheetState.show()
-                                    }
-                                }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_sort),
-                                    contentDescription = null,
-                                    tint = colorResource(id = R.color.dark_one)
-                                )
-                            }
-                        }
-                    )
-                },
-                content = {
-                    Column(
+            CollapsingToolbarScaffold(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                state = toolbarScaffoldState,
+                scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+                toolbar = {
+                    // Calculate the textSize based on the current state of the toolbar
+                    val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
+
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp)
+                            .fillMaxWidth()
+                            .height(125.dp)
+                            .pin()
+                            .background(color = Color.Transparent)
+                    )
+
+                    Text(
+                        modifier = Modifier.road(
+                            whenCollapsed = Alignment.TopStart,
+                            whenExpanded = Alignment.BottomStart
+                        ).padding(16.dp),
+                        text = "Pokédex",
+                        style = TextStyle(
+                            fontSize = textSize,
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.dark_one)
+                        )
+                    )
+
+                    Row(
+                        modifier = Modifier.road(
+                            whenExpanded = Alignment.TopEnd,
+                            whenCollapsed = Alignment.TopEnd
+                        )
                     ) {
-                        Text(
-                            modifier = Modifier.padding(bottom = 20.dp),
-                            text = "Pokédex",
-                            style = TextStyle(
-                                fontSize = 34.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = colorResource(id = R.color.dark_one)
-                            )
-                        )
-                        Search(
-                            value = searchQuery,
-                            placeholder = "Pokémon zoeken",
-                            onValueChange =  {
-                                viewModel.search(it)
-                            }
-                        )
-                        Row(
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        ) {
-                            MenuCard(
-                                title = "Mijn team",
-                                subtitle = "x pokemons",
-                                colors = listOf(
-                                    Color(70, 70, 156),
-                                    Color(126, 50, 224),
-                                ),
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(end = 4.dp)
-                            )
-                            MenuCard(
-                                title = "Favorieten",
-                                subtitle = "x pokemons",
-                                colors = listOf(
-                                    Color(101, 203, 154),
-                                    Color(21, 208, 220),
-                                ),
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(start = 4.dp)
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_filter),
+                                contentDescription = null,
+                                tint = colorResource(id = R.color.dark_one)
                             )
                         }
-                        LazyColumn {
-                            itemsIndexed(items = pokemon) { _, entry ->
-                                PokedexItem(pokemon = entry, navController = navController)
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    sheetState.show()
+                                }
                             }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_sort),
+                                contentDescription = null,
+                                tint = colorResource(id = R.color.dark_one)
+                            )
                         }
                     }
                 }
-            )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    Search(
+                        value = searchQuery,
+                        placeholder = "Pokémon zoeken",
+                        onValueChange =  {
+                            viewModel.search(it)
+                        }
+                    )
+                    Row(
+                        modifier = Modifier.padding(vertical = 20.dp)
+                    ) {
+                        MenuCard(
+                            title = "Mijn team",
+                            subtitle = "x pokemons",
+                            colors = listOf(
+                                Color(70, 70, 156),
+                                Color(126, 50, 224),
+                            ),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 4.dp)
+                        )
+                        MenuCard(
+                            title = "Favorieten",
+                            subtitle = "x pokemons",
+                            colors = listOf(
+                                Color(101, 203, 154),
+                                Color(21, 208, 220),
+                            ),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 4.dp)
+                        )
+                    }
+                    LazyColumn {
+                        itemsIndexed(items = pokemon) { _, entry ->
+                            PokedexItem(pokemon = entry, navController = navController)
+                        }
+                    }
+                }
+            }
+
+
+
+//                    TopAppBar(
+//                        backgroundColor = MaterialTheme.colors.background,
+//                        elevation = 0.dp,
+//                        title = { },
+//                        actions = {
+
+//                        }
+//                    )
         }
 
     }
