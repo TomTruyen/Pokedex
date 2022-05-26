@@ -1,6 +1,10 @@
 package com.tomtruyen.pokedex.utils
 
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import com.tomtruyen.pokedex.R
+import com.tomtruyen.pokedex.models.PokemonStatistic
 
 class PokemonUtils {
     companion object {
@@ -22,6 +26,40 @@ class PokemonUtils {
         fun calculateTotal(stats: List<PokemonStatistic>): Int {
             return stats.fold(0) { sum, element -> sum + element.baseStat }
         }
+
+        @Suppress("UNCHECKED_CAST")
+        fun getSpritesList(sprites: Map<String, Any>): List<Any?> {
+            // DEPRECATED - Gets all sprites in a list
+            // this isn't used anymore because some sprites are just really bad looking or too similar
+            // There is also an image url for Bulbasaur which doesn't return an image at all
+            //            val spritesList = mutableListOf<String>()
+            //
+            //            sprites.forEach { sprite ->
+            //                if(sprite.value is String && (sprite.value as String).isNotEmpty()) {
+            //                    spritesList.add(sprite.value as String)
+            //                    return@forEach
+            //                }
+            //
+            //                if(sprite.value is Map<*, *>) {
+            //                    try {
+            //                        spritesList.addAll(getSpritesList(sprite.value as Map<String, Any>))
+            //                    } catch (e: Exception) {
+            //                        // In case the sprite value cant be cast to a Map<String, Any>
+            //                    }
+            //                }
+            //            }
+            //
+            //            return spritesList
+
+            // Return the front, front shiny, back and back shiny sprites
+            return listOf(
+                sprites["front_default"],
+                sprites["front_shiny"],
+                sprites["back_default"],
+                sprites["back_shiny"],
+            )
+        }
+
         fun getTypeColor(type: String): Int {
             return when (type.lowercase()) {
                 "grass" -> R.color.grass
