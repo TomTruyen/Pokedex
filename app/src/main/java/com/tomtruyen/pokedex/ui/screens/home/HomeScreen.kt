@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.ui.shared.components.*
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
+fun HomeScreen(navController: NavHostController, viewModel: HomeScreenViewModel) {
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )

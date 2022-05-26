@@ -27,13 +27,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.tomtruyen.pokedex.ui.screens.ScreenUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 @Composable
-fun PokedexItem(pokemon: Pokemon, navController: NavController) {
+fun PokedexItem(pokemon: Pokemon, navController: NavHostController) {
+
     Card(
         modifier = Modifier
             .fillMaxWidth()

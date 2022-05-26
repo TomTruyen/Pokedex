@@ -10,6 +10,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -26,6 +28,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val homeScreenViewModel = HomeScreenViewModel()
+
         setContent {
             PokedexTheme {
                 val navController = rememberAnimatedNavController()
@@ -42,6 +47,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(
                             route = Screens.Home.route,
+                            content = { HomeScreen( navController = navController, viewModel = homeScreenViewModel) },
                             exitTransition = { ->
                                 slideOutHorizontally(
                                     targetOffsetX = { -300 },
@@ -54,9 +60,7 @@ class MainActivity : ComponentActivity() {
                                     animationSpec = tween(300)
                                 ) + fadeIn(animationSpec = tween(300))
                             }
-                        ) {
-                            HomeScreen(navController)
-                        }
+                        )
 
                         composable(
                             route = Screens.Details.route,

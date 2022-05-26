@@ -8,13 +8,13 @@ import com.tomtruyen.pokedex.models.Pokemon
 import com.tomtruyen.pokedex.service.PokemonApi
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModel() : ViewModel() {
+class HomeScreenViewModel : ViewModel() {
     private var _pokemon = listOf<Pokemon>()
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
-    var error = mutableStateOf<String>("")
-    var isLoading = mutableStateOf<Boolean>(true)
-    var searchQuery = mutableStateOf<String>("")
-    var sort = mutableStateOf<Sort>(Sort.NUMERIC_ASC)
+    var error = mutableStateOf("")
+    var isLoading = mutableStateOf(true)
+    var searchQuery = mutableStateOf("")
+    var sort = mutableStateOf(Sort.NUMERIC_ASC)
 
     init {
         viewModelScope.launch {
