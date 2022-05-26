@@ -36,9 +36,6 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeScreenViewModel)
     val searchQuery by remember { viewModel.searchQuery }
     val sort by remember { viewModel.sort }
 
-    var activeSort by remember {
-        mutableStateOf(sort)
-    }
 
     if(isLoading) {
         Loader()
@@ -50,81 +47,13 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeScreenViewModel)
             sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
             sheetBackgroundColor = Color.White,
             sheetContent = {
-                Column(
-                    modifier = Modifier.padding(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Sorteren op",
-                            style = TextStyle(
-                                fontSize = 17.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = colorResource(id = R.color.dark_one)
-                            )
-                        )
-                        IconButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    // Set the actual viewModel sort value on closing
-                                    // Otherwise it remembers the state and displays an incorrect
-                                    // SortItem as selected due to previous actions
-                                    activeSort = sort
-                                    sheetState.hide()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_close),
-                                contentDescription = null,
-                                tint = colorResource(id = R.color.light_grey)
-                            )
-                        }
+                SortBottomSheet(
+                    state = sheetState,
+                    value = sort,
+                    onSort = {
+                        viewModel.sort(it)
                     }
-
-                    SortItem(
-                        icon = R.drawable.ic_alphabetic_asc,
-                        text = "Alfabetisch oplopend",
-                        selected = activeSort == Sort.ALPHABETIC_ASC,
-                        onClick = { activeSort = Sort.ALPHABETIC_ASC },
-                        modifier = Modifier.padding(vertical = 5.dp)
-                    )
-                    SortItem(
-                        icon = R.drawable.ic_alphabetic_desc,
-                        text = "Alfabetisch aflopend",
-                        selected = activeSort == Sort.ALPHABETIC_DESC,
-                        onClick = { activeSort = Sort.ALPHABETIC_DESC },
-                        modifier = Modifier.padding(vertical = 5.dp)
-                    )
-                    SortItem(
-                        icon = R.drawable.ic_numeric_asc,
-                        text = "Numeriek oplopend",
-                        selected = activeSort == Sort.NUMERIC_ASC,
-                        onClick = { activeSort = Sort.NUMERIC_ASC },
-                        modifier = Modifier.padding(vertical = 5.dp)
-                    )
-                    SortItem(
-                        icon = R.drawable.ic_numeric_desc,
-                        text = "Numeriek aflopend",
-                        selected = activeSort == Sort.NUMERIC_DESC,
-                        onClick = { activeSort = Sort.NUMERIC_DESC },
-                        modifier = Modifier.padding(vertical = 5.dp)
-                    )
-
-                    PrimaryButton(
-                        text = "Toepassen",
-                        onClick = {
-                            viewModel.sort(activeSort)
-                            coroutineScope.launch {
-                                sheetState.hide()
-                            }
-                        },
-                        modifier = Modifier.padding(vertical = 16.dp)
-                    )
-                }
+                )
             }
         ) {
             Scaffold(
