@@ -9,7 +9,7 @@ import com.tomtruyen.pokedex.service.PokemonApi
 import kotlinx.coroutines.launch
 
 class HomeScreenViewModel() : ViewModel() {
-    var _pokemon = listOf<Pokemon>()
+    private var _pokemon = listOf<Pokemon>()
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
     var error = mutableStateOf<String>("")
     var isLoading = mutableStateOf<Boolean>(true)
@@ -18,8 +18,6 @@ class HomeScreenViewModel() : ViewModel() {
 
     init {
         viewModelScope.launch {
-            isLoading.value = true
-
             try {
                 _pokemon = PokemonApi.service.getAll()
                 pokemon.value = _pokemon.map { it.copy() }
