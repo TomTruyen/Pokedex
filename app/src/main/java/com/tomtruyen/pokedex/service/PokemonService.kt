@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://stoplight.io/mocks/appwise-be/pokemon/57519009/")
+        .baseUrl("https://pokeapi.co/api/v2/pokemon/")
         .build()
 
 object PokemonApi {
