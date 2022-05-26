@@ -14,11 +14,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PokemonTypeChip(type: String, color: Int) {
+fun PokemonTypeChip(type: String, color: Int, modifier: Modifier = Modifier) {
     val shape = CircleShape
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(color = colorResource(id = color), shape = shape)
             .clip(shape = shape)
             .padding(horizontal = 10.dp, vertical = 3.dp)
