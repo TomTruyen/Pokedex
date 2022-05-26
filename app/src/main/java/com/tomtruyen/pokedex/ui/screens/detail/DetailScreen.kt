@@ -40,6 +40,7 @@ fun DetailScreen(navController: NavController, viewModel: DetailScreenViewModel)
     val pokemon by remember { viewModel.pokemon }
     val isLoading by remember { viewModel.isLoading }
     val error by remember { viewModel.error }
+    val moves by remember { viewModel.moves }
 
     if(isLoading) {
         Loader()
@@ -118,6 +119,7 @@ fun DetailScreen(navController: NavController, viewModel: DetailScreenViewModel)
                     ImageCarousel(pokemon = it)
                     AboutCard(pokemon = it)
                     StatisticsCard(pokemon = it)
+                    MovesCard(moves = moves)
                 }
             }
         }
