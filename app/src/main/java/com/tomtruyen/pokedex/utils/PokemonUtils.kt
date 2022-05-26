@@ -17,6 +17,11 @@ class PokemonUtils {
                 else -> "Total"
             }
         }
+
+
+        fun calculateTotal(stats: List<PokemonStatistic>): Int {
+            return stats.fold(0) { sum, element -> sum + element.baseStat }
+        }
         fun getTypeColor(type: String): Int {
             return when (type.lowercase()) {
                 "grass" -> R.color.grass
