@@ -4,10 +4,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.tomtruyen.pokedex.R
+import com.tomtruyen.pokedex.models.PokemonMove
 import com.tomtruyen.pokedex.models.PokemonStatistic
 
 class PokemonUtils {
     companion object {
+        /**
+         * @param PokemonStatistic
+         *
+         * @return String
+         */
         fun getStatDisplayName(statistic: PokemonStatistic): String {
             val name = statistic.stat["name"] ?: return ""
 
@@ -22,11 +28,31 @@ class PokemonUtils {
             }
         }
 
+        /**
+         * @param List<PokemonMove>
+         *
+         * @return List<PokemonMove>
+         */
+        fun getLevelUpMoves(moves: List<PokemonMove>): List<PokemonMove> {
+            return moves.filter {
+                it.versionGroupDetails.isNotEmpty() && it.versionGroupDetails[0].moveLearnMethod.name == "level-up"
+            }.sortedBy { it.versionGroupDetails[0].levelLearnedAt }
+        }
 
+        /**
+         * @param List<PokemonStatistic>
+         *
+         * @return Int
+         */
         fun calculateTotal(stats: List<PokemonStatistic>): Int {
             return stats.fold(0) { sum, element -> sum + element.baseStat }
         }
 
+        /**
+         * @param Map<String, Any>
+         *
+         * @return List<Any?>
+         */
         @Suppress("UNCHECKED_CAST")
         fun getSpritesList(sprites: Map<String, Any>): List<Any?> {
             // DEPRECATED - Gets all sprites in a list
@@ -60,6 +86,11 @@ class PokemonUtils {
             )
         }
 
+        /**
+         * @param String
+         *
+         * @return Int
+         */
         fun getTypeColor(type: String): Int {
             return when (type.lowercase()) {
                 "grass" -> R.color.grass
@@ -84,6 +115,11 @@ class PokemonUtils {
             }
         }
 
+        /**
+         * @param String
+         *
+         * @return List<Color>
+         */
         fun getDetailBackgroundGradient(type: String): List<Color> {
             return when (type.lowercase()) {
                 "grass" -> listOf(Color(0xFF7ECD8B), Color(0xFF89E2B3))
