@@ -1,5 +1,6 @@
 package com.tomtruyen.pokedex.ui.screens.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.tomtruyen.pokedex.utils.NetworkUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
+@Suppress("StaticFieldLeak")
 class HomeScreenViewModel(
     private val context: Context,
     private val dao: PokemonDao
@@ -31,7 +33,7 @@ class HomeScreenViewModel(
     private fun load() {
         viewModelScope.launch {
             try {
-                if(NetworkUtils.hasInternetConnection(context)) {
+                if(NetworkUtils.hasInternetConnection(context.applicationContext)) {
                     _pokemon = PokemonApi.service.getAll()
 
                     // Save data into Room (SQLite) for caching

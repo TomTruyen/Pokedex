@@ -11,6 +11,7 @@ import androidx.compose.material.Surface
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.tomtruyen.pokedex.database.dao.FavoritePokemonDao
 import com.tomtruyen.pokedex.database.dao.PokemonDao
 import com.tomtruyen.pokedex.database.dao.PokemonDetailsDao
 import com.tomtruyen.pokedex.ui.screens.Screens
@@ -26,14 +27,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val pokemonDao = get<PokemonDao>();
-        val pokemonDetailsDao = get<PokemonDetailsDao>();
-
-        val homeScreenViewModel = HomeScreenViewModel(
-            context = applicationContext,
-            dao = pokemonDao
-        )
 
         setContent {
             PokedexTheme {
@@ -52,10 +45,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screens.Home.route,
                             content = {
-                                HomeScreen(
-                                    navController = navController,
-                                    viewModel = homeScreenViewModel
-                                )
+                                HomeScreen(navController = navController)
                             },
                             exitTransition = { ->
                                 slideOutHorizontally(
@@ -88,11 +78,7 @@ class MainActivity : ComponentActivity() {
                             content = {
                                 DetailScreen(
                                     navController,
-                                    DetailScreenViewModel(
-                                        context = applicationContext,
-                                        id = it.arguments?.getString("pokemonId")?.toInt(),
-                                        dao = pokemonDetailsDao
-                                    )
+                                    it.arguments?.getString("pokemonId")?.toInt()
                                 )
                             }
                         )
