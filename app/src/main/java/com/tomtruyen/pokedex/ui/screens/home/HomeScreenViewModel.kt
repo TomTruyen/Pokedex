@@ -24,6 +24,7 @@ class HomeScreenViewModel(
     var isLoading = mutableStateOf(true)
     var searchQuery = mutableStateOf("")
     var sort = mutableStateOf(Sort.NUMERIC_ASC)
+    var filterTypes = mutableStateOf<List<String>>(listOf())
 
     init {
         load()
@@ -56,20 +57,54 @@ class HomeScreenViewModel(
 
     fun search(value: String) {
         searchQuery.value = value
-
-        pokemon.value = _pokemon.filter {
-            it.id.toString().contains(value) || it.name.contains(value)
-        }
+        filter()
     }
 
     fun sort(newSort: Sort) {
         sort.value = newSort
+        filter()
+    }
 
-        pokemon.value = when(newSort) {
-            Sort.ALPHABETIC_ASC -> _pokemon.sortedBy { pokemon -> pokemon.name }
-            Sort.ALPHABETIC_DESC -> _pokemon.sortedByDescending { pokemon -> pokemon.name }
-            Sort.NUMERIC_ASC -> _pokemon.sortedBy { pokemon -> pokemon.id }
-            Sort.NUMERIC_DESC -> _pokemon.sortedByDescending { pokemon -> pokemon.id }
+    fun filterByTypes(type: String) {
+        if(filterTypes.value.contains(type)) {
+            filterTypes.value = filterTypes.value.filter { it != type }
+        } else {
+            val types = filterTypes.value.toMutableList()
+            types.add(type)
+            filterTypes.value = types.toList()
         }
+
+        filter()
+    }
+
+    fun clearFilterByTypes() {
+        filterTypes.value = listOf()
+
+        filter()
+    }
+
+    private fun filter() {
+        var filteredPokemon = _pokemon
+
+        if(searchQuery.value.isNotEmpty()) {
+            filteredPokemon = filteredPokemon.filter {
+                it.id.toString().contains(searchQuery.value) || it.name.contains(searchQuery.value)
+            }
+        }
+
+        if(filterTypes.value.isNotEmpty()) {
+            filteredPokemon = filteredPokemon.filter { pokemon ->
+                pokemon.types.any { filterTypes.value.contains(it.type["name"]) }
+            }
+        }
+
+        filteredPokemon = when(sort.value) {
+            Sort.ALPHABETIC_ASC -> filteredPokemon.sortedBy { pokemon -> pokemon.name }
+            Sort.ALPHABETIC_DESC -> filteredPokemon.sortedByDescending { pokemon -> pokemon.name }
+            Sort.NUMERIC_ASC -> filteredPokemon.sortedBy { pokemon -> pokemon.id }
+            Sort.NUMERIC_DESC -> filteredPokemon.sortedByDescending { pokemon -> pokemon.id }
+        }
+
+        pokemon.value = filteredPokemon
     }
 }
