@@ -1,5 +1,6 @@
 package com.tomtruyen.pokedex.ui.screens.home
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,6 +27,7 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import org.koin.androidx.compose.get
 
@@ -136,11 +138,7 @@ fun HomeScreen(navController: NavHostController) {
                     }
                 }
             ) {
-                SwipeRefresh(
-                    state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
-                    onRefresh = { viewModel.refresh() }
-                )  {
-                    Column(
+                Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp)
@@ -164,7 +162,8 @@ fun HomeScreen(navController: NavHostController) {
                                 ),
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(end = 4.dp)
+                                    .padding(end = 4.dp),
+                                onClick = {  }
                             )
                             MenuCard(
                                 title = "Favorieten",
@@ -175,7 +174,8 @@ fun HomeScreen(navController: NavHostController) {
                                 ),
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(start = 4.dp)
+                                    .padding(start = 4.dp),
+                                onClick = { navController.navigate(Screens.Favorites.route) }
                             )
                         }
                         LazyColumn {
@@ -184,7 +184,7 @@ fun HomeScreen(navController: NavHostController) {
                             }
                         }
                     }
-                }
+
             }
         }
     }
