@@ -143,5 +143,35 @@ class PokemonUtils {
                 else -> return listOf(Color(0xFFE5E5E5), Color.White)
             }
         }
+
+        /*
+        * This could also be achieved by looping over all pokemon and getting their types
+        * but because these have been declared for colors we will just declare them here
+        * alternatively these could also be declared as string-array in arrays.xml inside values dir
+        *
+        * @return List<String>
+        * */
+        fun getAllTypes(): List<String> {
+            return listOf(
+                "grass",
+                "bug",
+                "fire",
+                "water",
+                "fighting",
+                "normal",
+                "electric",
+                "psychic",
+                "poison",
+                "ghost",
+                "rock",
+                "ground",
+                "dark",
+                "ice",
+                "flying",
+                "dragon",
+                "fairy",
+                "steel",
+            )
+        }
     }
 }
