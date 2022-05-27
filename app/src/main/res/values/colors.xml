@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="light_grey">#919698</color>
+    <color name="background_light_grey">#F7F7F7</color>
+    <color name="dark_one">#1F2029</color>
+
+    <!--  Pokemon type colors  -->
+    <color name="water">#4592C3</color>
+    <color name="ghost">#7B62A3</color>
+    <color name="poison">#BA7EC8</color>
+    <color name="grass">#95C24D</color>
+    <color name="normal">#A3ACAE</color>
+    <color name="fire">#FD7D25</color>
+    <color name="bug">#A6B91A</color>
+    <color name="fighting">#C22E28</color>
+    <color name="electric">#F7D02C</color>
+    <color name="psychic">#F95587</color>
+    <color name="rock">#B6A136</color>
+    <color name="ground">#E2BF65</color>
+    <color name="dark">#705746</color>
+    <color name="ice">#96D9D6</color>
+    <color name="dragon">#6F35FC</color>
+    <color name="fairy">#D685AD</color>
+    <color name="steel">#B7B7CE</color>
+    <color name="flying">#A98FF3</color>
 </resources>
