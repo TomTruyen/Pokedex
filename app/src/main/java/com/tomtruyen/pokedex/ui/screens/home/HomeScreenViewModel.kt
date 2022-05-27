@@ -1,14 +1,21 @@
 package com.tomtruyen.pokedex.ui.screens.home
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tomtruyen.pokedex.database.dao.PokemonDao
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.models.Pokemon
 import com.tomtruyen.pokedex.service.PokemonApi
+import com.tomtruyen.pokedex.utils.NetworkUtils
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModel : ViewModel() {
+class HomeScreenViewModel(
+    private val context: Context,
+    private val dao: PokemonDao
+) : ViewModel() {
     private var _pokemon = listOf<Pokemon>()
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
     var error = mutableStateOf("")
@@ -19,11 +26,24 @@ class HomeScreenViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             try {
-                _pokemon = PokemonApi.service.getAll()
-                pokemon.value = _pokemon.map { it.copy() }
+                if(NetworkUtils.hasInternetConnection(context)) {
+                    _pokemon = PokemonApi.service.getAll()
+
+                    // Save data into Room (SQLite) for caching
+                    coroutineScope {
+                        dao.save(_pokemon)
+                    }
+                } else {
+                    coroutineScope {
+                        _pokemon = dao.getAll()
+                    }
+                }
+
+                pokemon.value = _pokemon.toList()
             } catch (e: Exception) {
                 error.value = e.message ?: "Something went wrong"
             }
+
 
             isLoading.value = false
         }
