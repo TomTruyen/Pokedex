@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -42,73 +44,82 @@ fun DetailScreen(navController: NavHostController, viewModel: DetailScreenViewMo
 
     val pokemon by remember { viewModel.pokemon }
     val isLoading by remember { viewModel.isLoading }
+    val isRefreshing by remember { viewModel.isRefreshing }
     val error by remember { viewModel.error }
     val moves by remember { viewModel.moves }
 
     if(isLoading) {
         Loader()
-    } else if (error.isNotEmpty()) {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { },
-                        elevation = 0.dp,
-                        backgroundColor = Color.White,
-                        navigationIcon = {
-                            IconButton(
-                                onClick = { navController.popBackStack() }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowBack,
-                                    contentDescription = null,
-                                    tint = Color.Black
-                                )
-                            }
-                        }
-                    )
-                }
-            ) {
-                Error(error = error)
-            }
     } else {
-        pokemon?.let {
-            CollapsingToolbarScaffold(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = PokemonUtils.getDetailBackgroundGradient(
-                                it.types.first().type["name"] ?: ""
-                            ),
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+            onRefresh = { viewModel.refresh() }
+        ) {
+            if (error.isNotEmpty()) {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { },
+                            elevation = 0.dp,
+                            backgroundColor = Color.White,
+                            navigationIcon = {
+                                IconButton(
+                                    onClick = { navController.popBackStack() }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        contentDescription = null,
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
                         )
-                    ),
-                state = toolbarScaffoldState,
-                scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-                toolbar = {
-                    // Calculate the textSize based on the current state of the toolbar
-                    val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
-
-                    DetailToolbar(
-                        pokemon = it,
-                        textSize = textSize,
-                        navController = navController,
-                        onFavorite = {
-                            println("Favorite press")
-                        }
-                    )
-                }
-            ) {
-
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .padding(20.dp)
+                    }
                 ) {
-                    ImageCarousel(pokemon = it)
-                    AboutCard(pokemon = it)
-                    StatisticsCard(pokemon = it)
-                    MovesCard(moves = moves)
+                    Error(error = error)
+                }
+            } else {
+                pokemon?.let {
+                    CollapsingToolbarScaffold(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = PokemonUtils.getDetailBackgroundGradient(
+                                        it.types.first().type["name"] ?: ""
+                                    ),
+                                )
+                            ),
+                        state = toolbarScaffoldState,
+                        scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+                        toolbar = {
+                            // Calculate the textSize based on the current state of the toolbar
+                            val textSize =
+                                (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
+
+                            DetailToolbar(
+                                pokemon = it,
+                                textSize = textSize,
+                                navController = navController,
+                                onFavorite = {
+                                    println("Favorite press")
+                                }
+                            )
+                        }
+                    ) {
+
+                        Column(
+                            modifier = Modifier
+                                .verticalScroll(rememberScrollState())
+                                .padding(20.dp)
+                        ) {
+                            ImageCarousel(pokemon = it)
+                            AboutCard(pokemon = it)
+                            StatisticsCard(pokemon = it)
+                            MovesCard(moves = moves)
+                        }
+                    }
                 }
             }
         }

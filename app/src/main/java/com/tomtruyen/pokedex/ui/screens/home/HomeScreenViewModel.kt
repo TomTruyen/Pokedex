@@ -20,10 +20,15 @@ class HomeScreenViewModel(
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
     var error = mutableStateOf("")
     var isLoading = mutableStateOf(true)
+    var isRefreshing = mutableStateOf(false)
     var searchQuery = mutableStateOf("")
     var sort = mutableStateOf(Sort.NUMERIC_ASC)
 
     init {
+        load()
+    }
+
+    private fun load() {
         viewModelScope.launch {
             try {
                 if(NetworkUtils.hasInternetConnection(context)) {
@@ -44,9 +49,14 @@ class HomeScreenViewModel(
                 error.value = e.message ?: "Something went wrong"
             }
 
-
-            isLoading.value = false
+            if(isLoading.value) isLoading.value = false
+            if(isRefreshing.value) isRefreshing.value = false
         }
+    }
+
+    fun refresh() {
+        isRefreshing.value = true
+        load()
     }
 
     fun search(value: String) {

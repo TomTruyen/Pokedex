@@ -23,9 +23,19 @@ class DetailScreenViewModel(
     var pokemon = mutableStateOf<PokemonDetails?>(null);
     var error = mutableStateOf("")
     var isLoading = mutableStateOf(true)
+    var isRefreshing = mutableStateOf(false)
     var moves = mutableStateOf<List<PokemonMove>>(listOf())
 
     init {
+        load()
+    }
+
+    fun refresh() {
+        isRefreshing.value = true
+        load()
+    }
+
+    private fun load() {
         viewModelScope.launch {
             try {
                 if(id == null) throw Exception()
@@ -52,7 +62,8 @@ class DetailScreenViewModel(
                 error.value = e.message ?: "Something went wrong"
             }
 
-            isLoading.value = false
+            if(isLoading.value) isLoading.value = false
+            if(isRefreshing.value) isRefreshing.value = false
         }
     }
 }
