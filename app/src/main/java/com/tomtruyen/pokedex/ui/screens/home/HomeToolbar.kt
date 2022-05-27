@@ -20,8 +20,12 @@ import me.onebone.toolbar.CollapsingToolbarScope
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CollapsingToolbarScope.HomeToolbar(state: ModalBottomSheetState, textSize: TextUnit) {
-    val coroutineScope = rememberCoroutineScope()
+fun CollapsingToolbarScope.HomeToolbar(
+    textSize: TextUnit,
+    onTypeFilterClick: () -> Unit,
+    onSortClick: () -> Unit
+) {
+    rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -52,20 +56,14 @@ fun CollapsingToolbarScope.HomeToolbar(state: ModalBottomSheetState, textSize: T
             whenCollapsed = Alignment.TopEnd
         )
     ) {
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = onTypeFilterClick) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_filter),
                 contentDescription = null,
                 tint = colorResource(id = R.color.dark_one)
             )
         }
-        IconButton(
-            onClick = {
-                coroutineScope.launch {
-                    state.show()
-                }
-            }
-        ) {
+        IconButton(onClick = onSortClick) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_sort),
                 contentDescription = null,
