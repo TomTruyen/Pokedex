@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,8 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tomtruyen.pokedex.R
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuCard(title: String, subtitle: String, colors: List<Color>, modifier: Modifier) {
+fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -> Unit, modifier: Modifier) {
     Card(
         modifier = modifier.height(100.dp)
             .background(
@@ -31,7 +33,8 @@ fun MenuCard(title: String, subtitle: String, colors: List<Color>, modifier: Mod
             ),
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.Transparent,
-        elevation = 0.dp
+        elevation = 0.dp,
+        onClick = onClick
     ) {
         Box {
             Image(
