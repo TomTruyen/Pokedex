@@ -4,30 +4,53 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomtruyen.pokedex.database.dao.PokemonDao
+import com.tomtruyen.pokedex.database.dao.FavoritePokemonDao
 import com.tomtruyen.pokedex.database.dao.PokemonDetailsDao
-import com.tomtruyen.pokedex.models.Pokemon
-import com.tomtruyen.pokedex.models.PokemonDetails
-import com.tomtruyen.pokedex.models.PokemonMove
+import com.tomtruyen.pokedex.models.*
 import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
+@Suppress("StaticFieldLeak")
 class DetailScreenViewModel(
     private val context: Context,
     private val id: Int?,
-    private val dao: PokemonDetailsDao
+    private val dao: PokemonDetailsDao,
+    private val favoritePokemonDao: FavoritePokemonDao
 ): ViewModel() {
     var pokemon = mutableStateOf<PokemonDetails?>(null);
     var error = mutableStateOf("")
+    var isFavorite = mutableStateOf(false)
     var isLoading = mutableStateOf(true)
     var isRefreshing = mutableStateOf(false)
     var moves = mutableStateOf<List<PokemonMove>>(listOf())
 
     init {
         load()
+    }
+
+    fun toggleFavorite() {
+        viewModelScope.launch {
+            val pokemon = pokemon.value
+            if (pokemon != null) {
+                if(isFavorite.value) {
+                    favoritePokemonDao.delete(pokemon.id)
+                } else {
+                    favoritePokemonDao.save(
+                        FavoritePokemon(
+                            id = pokemon.id,
+                            name = pokemon.name,
+                            sprites = pokemon.sprites,
+                            types = pokemon.types
+                        )
+                    )
+                }
+            }
+        }
+
+        isFavorite.value = !isFavorite.value
     }
 
     fun refresh() {
@@ -40,8 +63,10 @@ class DetailScreenViewModel(
             try {
                 if(id == null) throw Exception()
 
-                if(NetworkUtils.hasInternetConnection(context)) {
-                    pokemon.value = PokemonApi.service.getById(id)
+                isFavorite.value = favoritePokemonDao.exists(id!!)
+
+                if(NetworkUtils.hasInternetConnection(context.applicationContext)) {
+                    pokemon.value = PokemonApi.service.getById(id!!)
 
                     if(pokemon.value != null) {
                         coroutineScope {
@@ -49,7 +74,7 @@ class DetailScreenViewModel(
                         }
                     }
                 } else {
-                    pokemon.value = dao.getById(id)
+                    pokemon.value = dao.getById(id!!)
                     if(pokemon.value == null) {
                         throw Exception("Couldn't find local data. Please try connecting to the internet.")
                     }
