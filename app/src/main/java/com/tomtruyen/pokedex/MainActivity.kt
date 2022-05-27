@@ -4,32 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.ui.graphics.Color
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.tomtruyen.pokedex.database.dao.PokemonDao
+import com.tomtruyen.pokedex.database.dao.PokemonDetailsDao
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreenViewModel
 import com.tomtruyen.pokedex.ui.screens.home.HomeScreen
 import com.tomtruyen.pokedex.ui.screens.home.HomeScreenViewModel
 import com.tomtruyen.pokedex.ui.theme.PokedexTheme
+import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
+
     @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val homeScreenViewModel = HomeScreenViewModel()
+        val pokemonDao = get<PokemonDao>();
+        val pokemonDetailsDao = get<PokemonDetailsDao>();
+
+        val homeScreenViewModel = HomeScreenViewModel(
+            context = applicationContext,
+            dao = pokemonDao
+        )
 
         setContent {
             PokedexTheme {
@@ -47,7 +51,12 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(
                             route = Screens.Home.route,
-                            content = { HomeScreen( navController = navController, viewModel = homeScreenViewModel) },
+                            content = {
+                                HomeScreen(
+                                    navController = navController,
+                                    viewModel = homeScreenViewModel
+                                )
+                            },
                             exitTransition = { ->
                                 slideOutHorizontally(
                                     targetOffsetX = { -300 },
@@ -75,10 +84,18 @@ class MainActivity : ComponentActivity() {
                                     targetOffsetX = { -300 },
                                     animationSpec = tween(300)
                                 ) + fadeOut(animationSpec = tween(300))
+                            },
+                            content = {
+                                DetailScreen(
+                                    navController,
+                                    DetailScreenViewModel(
+                                        context = applicationContext,
+                                        id = it.arguments?.getString("pokemonId")?.toInt(),
+                                        dao = pokemonDetailsDao
+                                    )
+                                )
                             }
-                        ) {
-                            DetailScreen(navController, DetailScreenViewModel(it.arguments?.getString("pokemonId")?.toInt()))
-                        }
+                        )
                     }
                 }
 
