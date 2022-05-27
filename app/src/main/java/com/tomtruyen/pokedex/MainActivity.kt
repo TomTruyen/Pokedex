@@ -17,6 +17,7 @@ import com.tomtruyen.pokedex.database.dao.PokemonDetailsDao
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreenViewModel
+import com.tomtruyen.pokedex.ui.screens.favorite.FavoriteScreen
 import com.tomtruyen.pokedex.ui.screens.home.HomeScreen
 import com.tomtruyen.pokedex.ui.screens.home.HomeScreenViewModel
 import com.tomtruyen.pokedex.ui.theme.PokedexTheme
@@ -80,6 +81,25 @@ class MainActivity : ComponentActivity() {
                                     navController,
                                     it.arguments?.getString("pokemonId")?.toInt()
                                 )
+                            }
+                        )
+
+                        composable(
+                            route = Screens.Favorites.route,
+                            enterTransition = { ->
+                                slideInHorizontally(
+                                    initialOffsetX = { 300 },
+                                    animationSpec = tween(300)
+                                ) + fadeIn(animationSpec = tween(300))
+                            },
+                            popExitTransition = { ->
+                                slideOutHorizontally(
+                                    targetOffsetX = { -300 },
+                                    animationSpec = tween(300)
+                                ) + fadeOut(animationSpec = tween(300))
+                            },
+                            content = {
+                                FavoriteScreen(navController)
                             }
                         )
                     }
