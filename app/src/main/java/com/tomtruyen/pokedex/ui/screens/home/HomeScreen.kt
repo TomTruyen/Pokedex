@@ -47,11 +47,8 @@ fun HomeScreen(navController: NavHostController) {
 
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
-    val coroutineScope = rememberCoroutineScope()
-
     val pokemon by remember { viewModel.pokemon }
     val isLoading by remember { viewModel.isLoading }
-    val isRefreshing by remember { viewModel.isRefreshing }
     val error by remember { viewModel.error }
     val searchQuery by remember { viewModel.searchQuery }
     val sort by remember { viewModel.sort }
@@ -86,56 +83,10 @@ fun HomeScreen(navController: NavHostController) {
                     // Calculate the textSize based on the current state of the toolbar
                     val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(125.dp)
-                            .pin()
-                            .background(color = Color.Transparent)
+                    HomeToolbar(
+                        state = sheetState,
+                        textSize = textSize
                     )
-
-                    Text(
-                        modifier = Modifier
-                            .road(
-                                whenCollapsed = Alignment.TopStart,
-                                whenExpanded = Alignment.BottomStart
-                            )
-                            .padding(16.dp),
-                        text = "Pokédex",
-                        style = TextStyle(
-                            fontSize = textSize,
-                            fontWeight = FontWeight.Bold,
-                            color = colorResource(id = R.color.dark_one)
-                        )
-                    )
-
-                    Row(
-                        modifier = Modifier.road(
-                            whenExpanded = Alignment.TopEnd,
-                            whenCollapsed = Alignment.TopEnd
-                        )
-                    ) {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_filter),
-                                contentDescription = null,
-                                tint = colorResource(id = R.color.dark_one)
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    sheetState.show()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_sort),
-                                contentDescription = null,
-                                tint = colorResource(id = R.color.dark_one)
-                            )
-                        }
-                    }
                 }
             ) {
                 Column(

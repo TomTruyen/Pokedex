@@ -22,7 +22,6 @@ class HomeScreenViewModel(
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
     var error = mutableStateOf("")
     var isLoading = mutableStateOf(true)
-    var isRefreshing = mutableStateOf(false)
     var searchQuery = mutableStateOf("")
     var sort = mutableStateOf(Sort.NUMERIC_ASC)
 
@@ -51,14 +50,8 @@ class HomeScreenViewModel(
                 error.value = e.message ?: "Something went wrong"
             }
 
-            if(isLoading.value) isLoading.value = false
-            if(isRefreshing.value) isRefreshing.value = false
+            isLoading.value = false
         }
-    }
-
-    fun refresh() {
-        isRefreshing.value = true
-        load()
     }
 
     fun search(value: String) {
