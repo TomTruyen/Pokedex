@@ -1,6 +1,7 @@
 package com.tomtruyen.pokedex.ui.screens.detail
 
 import android.graphics.Paint
+import android.widget.Toolbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -46,7 +48,28 @@ fun DetailScreen(navController: NavHostController, viewModel: DetailScreenViewMo
     if(isLoading) {
         Loader()
     } else if (error.isNotEmpty()) {
-        Error(error = error)
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { },
+                        elevation = 0.dp,
+                        backgroundColor = Color.White,
+                        navigationIcon = {
+                            IconButton(
+                                onClick = { navController.popBackStack() }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = null,
+                                    tint = Color.Black
+                                )
+                            }
+                        }
+                    )
+                }
+            ) {
+                Error(error = error)
+            }
     } else {
         pokemon?.let {
             CollapsingToolbarScaffold(
@@ -76,6 +99,7 @@ fun DetailScreen(navController: NavHostController, viewModel: DetailScreenViewMo
                     )
                 }
             ) {
+
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
