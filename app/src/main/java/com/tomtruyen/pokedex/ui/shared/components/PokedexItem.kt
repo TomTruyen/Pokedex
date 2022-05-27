@@ -30,18 +30,19 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.tomtruyen.pokedex.models.BasePokemon
 import com.tomtruyen.pokedex.ui.screens.ScreenUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 @Composable
-fun PokedexItem(pokemon: Pokemon, navController: NavHostController) {
+fun PokedexItem(pokemon: BasePokemon, navController: NavHostController) {
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp),
         shape = RoundedCornerShape(10.dp),
-        elevation = 2.dp,
+        elevation = 1.dp,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
