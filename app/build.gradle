@@ -81,7 +81,7 @@ dependencies {
     implementation "me.onebone:toolbar-compose:2.3.2"
 
     // Carousel
-    implementation "com.google.accompanist:accompanist-pager:0.23.1"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
 
     // Rooms
     implementation "androidx.room:room-runtime:$room_version"
@@ -92,4 +92,7 @@ dependencies {
 
     // Koin for DI
     implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
+    // Swipe to refresh
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
 }
