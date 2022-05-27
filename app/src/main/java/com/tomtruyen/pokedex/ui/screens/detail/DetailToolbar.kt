@@ -10,6 +10,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ fun CollapsingToolbarScope.DetailToolbar(
     pokemon: PokemonDetails,
     textSize: TextUnit,
     navController: NavHostController,
+    isFavorite: Boolean,
     onFavorite: () -> Unit
 ) {
     Box(
@@ -69,7 +71,7 @@ fun CollapsingToolbarScope.DetailToolbar(
         onClick = onFavorite
     ) {
         Icon(
-            imageVector = Icons.Filled.FavoriteBorder,
+            imageVector = if(isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
             contentDescription = null,
             tint = Color.White
         )

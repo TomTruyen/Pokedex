@@ -102,8 +102,9 @@ fun DetailScreen(navController: NavHostController, viewModel: DetailScreenViewMo
                                 pokemon = it,
                                 textSize = textSize,
                                 navController = navController,
+                                isFavorite = isFavorite,
                                 onFavorite = {
-                                    println("Favorite press")
+                                    viewModel.toggleFavorite()
                                 }
                             )
                         }
