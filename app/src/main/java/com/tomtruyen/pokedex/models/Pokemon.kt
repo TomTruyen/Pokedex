@@ -13,8 +13,8 @@ import com.tomtruyen.pokedex.utils.converters.MapStringTypeConverter
 data class Pokemon(
     @PrimaryKey
     @NonNull
-    val id: Int,
-    val name: String,
-    val sprites: Map<String, String>,
-    val types: List<PokemonType>,
-)
+    override val id: Int,
+    override val name: String,
+    override val sprites: Map<String, String>,
+    override val types: List<PokemonType>,
+ ) : BasePokemon

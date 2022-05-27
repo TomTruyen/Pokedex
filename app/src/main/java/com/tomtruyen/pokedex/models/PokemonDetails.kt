@@ -17,14 +17,14 @@ import org.jetbrains.annotations.NotNull
 data class PokemonDetails(
     @PrimaryKey
     @NotNull
-    val id: Int,
-    val name: String,
+    override val id: Int,
+    override val name: String,
+    override val sprites: Map<String, Any>,
+    override val types: List<PokemonType>,
     val abilities: List<PokemonAbility>,
     val baseExperience: Int,
-    val sprites: Map<String, Any>,
-    val types: List<PokemonType>,
     val stats: List<PokemonStatistic>,
     val moves: List<PokemonMove>,
     val height: Int,
     val weight: Int
-)
+) : BasePokemon
