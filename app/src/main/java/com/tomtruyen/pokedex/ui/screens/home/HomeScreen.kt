@@ -1,34 +1,25 @@
 package com.tomtruyen.pokedex.ui.screens.home
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.shared.components.*
-import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tomtruyen.pokedex.ui.screens.Screens
+import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
 import com.tomtruyen.pokedex.utils.viewModelFactory
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
 @ExperimentalMaterialApi
@@ -41,17 +32,26 @@ fun HomeScreen(navController: NavHostController) {
         )
     })
 
+    val coroutineScope = rememberCoroutineScope()
+
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
 
+
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+
+    // Switch of which sheet is active in the ModalBottomSheetScaffold
+    var isSheetTypeSort by remember {
+        mutableStateOf(false)
+    }
 
     val pokemon by remember { viewModel.pokemon }
     val isLoading by remember { viewModel.isLoading }
     val error by remember { viewModel.error }
     val searchQuery by remember { viewModel.searchQuery }
     val sort by remember { viewModel.sort }
+    val filterTypes by remember { viewModel.filterTypes }
 
 
     if(isLoading) {
@@ -64,13 +64,22 @@ fun HomeScreen(navController: NavHostController) {
             sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
             sheetBackgroundColor = Color.White,
             sheetContent = {
-                SortBottomSheet(
-                    state = sheetState,
-                    value = sort,
-                    onSort = {
-                        viewModel.sort(it)
-                    }
-                )
+                if(isSheetTypeSort) {
+                    FilterTypeBottomSheet(
+                        state = sheetState,
+                        filterTypes = filterTypes,
+                        onClick = { viewModel.filterByTypes(it) },
+                        onClear = { viewModel.clearFilterByTypes() }
+                    )
+                } else {
+                    SortBottomSheet(
+                        state = sheetState,
+                        value = sort,
+                        onSort = {
+                            viewModel.sort(it)
+                        }
+                    )
+                }
             },
         ) {
             CollapsingToolbarScaffold(
@@ -84,8 +93,19 @@ fun HomeScreen(navController: NavHostController) {
                     val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
 
                     HomeToolbar(
-                        state = sheetState,
-                        textSize = textSize
+                        textSize = textSize,
+                        onTypeFilterClick = {
+                            coroutineScope.launch {
+                                isSheetTypeSort = true
+                                sheetState.show()
+                            }
+                        },
+                        onSortClick = {
+                            coroutineScope.launch {
+                                isSheetTypeSort = false
+                                sheetState.show()
+                            }
+                        }
                     )
                 }
             ) {
