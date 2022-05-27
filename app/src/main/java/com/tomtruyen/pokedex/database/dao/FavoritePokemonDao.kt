@@ -6,7 +6,7 @@ import com.tomtruyen.pokedex.models.FavoritePokemon
 @Dao
 interface FavoritePokemonDao {
     @Query("SELECT * FROM favorite_pokemon")
-    suspend fun getAll(): FavoritePokemon
+    suspend fun getAll(): List<FavoritePokemon>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(pokemon: FavoritePokemon)
