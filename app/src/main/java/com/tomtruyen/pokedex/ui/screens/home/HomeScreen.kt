@@ -17,6 +17,7 @@ import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tomtruyen.pokedex.ui.screens.Screens
+import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.HomeToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
@@ -41,12 +42,53 @@ fun HomeScreen(navController: NavHostController) {
         viewModel.loadTeamCount()
     }
 
+    val isLoading by remember { viewModel.isLoading }
+    val error by remember { viewModel.error }
+
+    if(isLoading) {
+        Loader()
+    } else if (error.isNotEmpty()) {
+        Error(error = error)
+    } else {
+        BoxWithConstraints {
+            if(maxWidth < 600.dp) {
+                HomeScreenContent(navController = navController, viewModel = viewModel)
+            } else {
+                var selectedId by remember { mutableStateOf(-1) }
+
+                Row {
+                   HomeScreenContent(
+                       navController = navController,
+                       viewModel = viewModel,
+                       modifier = Modifier.weight(1f),
+                       onClickPokemon = {
+                           selectedId = it
+                       }
+                   )
+                    DetailScreen(
+                       navController = navController,
+                       id = selectedId,
+                       modifier = Modifier.weight(2f)
+                   )
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun HomeScreenContent(
+    navController: NavHostController,
+    viewModel: HomeScreenViewModel,
+    modifier: Modifier = Modifier,
+    onClickPokemon: ((Int) -> Unit)? = null
+) {
     val coroutineScope = rememberCoroutineScope()
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
-
 
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
@@ -56,8 +98,6 @@ fun HomeScreen(navController: NavHostController) {
     }
 
     val pokemon by remember { viewModel.pokemon }
-    val isLoading by remember { viewModel.isLoading }
-    val error by remember { viewModel.error }
 
     val teamCount by remember { viewModel.teamCount }
     val favoriteCount by remember { viewModel.favoriteCount }
@@ -66,110 +106,108 @@ fun HomeScreen(navController: NavHostController) {
     val sort by remember { viewModel.sort }
     val filterTypes by remember { viewModel.filterTypes }
 
+    ModalBottomSheetLayout(
+        modifier = modifier,
+        sheetState = sheetState,
+        sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
+        sheetBackgroundColor = Color.White,
+        sheetContent = {
+            if(isSheetTypeSort) {
+                FilterTypeBottomSheet(
+                    state = sheetState,
+                    filterTypes = filterTypes,
+                    onClick = { viewModel.filterByTypes(it) },
+                    onClear = { viewModel.clearFilterByTypes() }
+                )
+            } else {
+                SortBottomSheet(
+                    state = sheetState,
+                    value = sort,
+                    onSort = {
+                        viewModel.sort(it)
+                    }
+                )
+            }
+        },
+    ) {
+        CollapsingToolbarScaffold(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            state = toolbarScaffoldState,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
+                // Calculate the textSize based on the current state of the toolbar
+                val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
 
-    if(isLoading) {
-        Loader()
-    } else if (error.isNotEmpty()) {
-        Error(error = error)
-    } else {
-        ModalBottomSheetLayout(
-            sheetState = sheetState,
-            sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
-            sheetBackgroundColor = Color.White,
-            sheetContent = {
-                if(isSheetTypeSort) {
-                    FilterTypeBottomSheet(
-                        state = sheetState,
-                        filterTypes = filterTypes,
-                        onClick = { viewModel.filterByTypes(it) },
-                        onClear = { viewModel.clearFilterByTypes() }
-                    )
-                } else {
-                    SortBottomSheet(
-                        state = sheetState,
-                        value = sort,
-                        onSort = {
-                            viewModel.sort(it)
+                HomeToolbar(
+                    textSize = textSize,
+                    onTypeFilterClick = {
+                        coroutineScope.launch {
+                            isSheetTypeSort = true
+                            sheetState.show()
                         }
-                    )
-                }
-            },
-        ) {
-            CollapsingToolbarScaffold(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                state = toolbarScaffoldState,
-                scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-                toolbar = {
-                    // Calculate the textSize based on the current state of the toolbar
-                    val textSize = (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
-
-                    HomeToolbar(
-                        textSize = textSize,
-                        onTypeFilterClick = {
-                            coroutineScope.launch {
-                                isSheetTypeSort = true
-                                sheetState.show()
-                            }
-                        },
-                        onSortClick = {
-                            coroutineScope.launch {
-                                isSheetTypeSort = false
-                                sheetState.show()
-                            }
-                        }
-                    )
-                }
-            ) {
-                Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp)
-                    ) {
-                        Search(
-                            value = searchQuery,
-                            placeholder = "Pokémon zoeken",
-                            onValueChange = {
-                                viewModel.search(it)
-                            }
-                        )
-                        Row(
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        ) {
-                            MenuCard(
-                                title = "Mijn team",
-                                subtitle = "$teamCount pokemons",
-                                colors = listOf(
-                                    Color(70, 70, 156),
-                                    Color(126, 50, 224),
-                                ),
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(end = 4.dp),
-                                onClick = { navController.navigate(Screens.Team.route) }
-                            )
-                            MenuCard(
-                                title = "Favorieten",
-                                subtitle = "$favoriteCount pokemons",
-                                colors = listOf(
-                                    Color(101, 203, 154),
-                                    Color(21, 208, 220),
-                                ),
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(start = 4.dp),
-                                onClick = { navController.navigate(Screens.Favorites.route) }
-                            )
-                        }
-                        LazyColumn {
-                            itemsIndexed(items = pokemon) { _, entry ->
-                                PokedexItem(pokemon = entry, navController = navController)
-                            }
+                    },
+                    onSortClick = {
+                        coroutineScope.launch {
+                            isSheetTypeSort = false
+                            sheetState.show()
                         }
                     }
-
+                )
             }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Search(
+                    value = searchQuery,
+                    placeholder = "Pokémon zoeken",
+                    onValueChange = {
+                        viewModel.search(it)
+                    }
+                )
+                Row(
+                    modifier = Modifier.padding(vertical = 20.dp)
+                ) {
+                    MenuCard(
+                        title = "Mijn team",
+                        subtitle = "$teamCount pokemons",
+                        colors = listOf(
+                            Color(70, 70, 156),
+                            Color(126, 50, 224),
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 4.dp),
+                        onClick = { navController.navigate(Screens.Team.route) }
+                    )
+                    MenuCard(
+                        title = "Favorieten",
+                        subtitle = "$favoriteCount pokemons",
+                        colors = listOf(
+                            Color(101, 203, 154),
+                            Color(21, 208, 220),
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 4.dp),
+                        onClick = { navController.navigate(Screens.Favorites.route) }
+                    )
+                }
+                LazyColumn {
+                    itemsIndexed(items = pokemon) { _, entry ->
+                        PokedexItem(
+                            pokemon = entry,
+                            navController = navController,
+                            onClick = onClickPokemon,
+                        )
+                    }
+                }
+            }
+
         }
     }
 }
