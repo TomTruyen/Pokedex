@@ -30,72 +30,102 @@ import com.tomtruyen.pokedex.utils.PokemonUtils
 
 
 @Composable
-fun StatisticsCard(pokemon: PokemonDetails) {
-    Column {
+fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
         CardTitle(text = "Statistieken")
         Card(
             modifier = Modifier.padding(top = 8.dp, bottom = 28.dp),
             shape = RoundedCornerShape(10.dp),
         ) {
-            Column(modifier = Modifier.padding(20.dp)) {
-                pokemon.stats.map {
+            BoxWithConstraints {
+                if(maxWidth < 600.dp) {
+                    Column(modifier = Modifier.padding(20.dp)) {
+                        BaseStats(pokemon = pokemon)
+
+                        PokemonStatsChart(
+                            pokemon = pokemon,
+                            modifier = Modifier
+                                .width(250.dp)
+                                .height(250.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
+                } else {
                     Row(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Types
-                        CardText(
-                            text = PokemonUtils.getStatDisplayName(it),
-                            modifier = Modifier.weight(0.3f)
+                        BaseStats(
+                            pokemon = pokemon,
+                            modifier = Modifier.weight(1f)
+                                .padding(20.dp)
                         )
-                        CardText(
-                            text = it.baseStat.toString(),
-                            modifier = Modifier.weight(0.15f),
-                            color = Color.Black,
-                            style = TextStyle(fontWeight = FontWeight.W500)
-                        )
-                        StatisticProgressBar(
-                            value = it.baseStat,
-                            total = 100,
-                            modifier = Modifier.weight(0.55f)
+                        PokemonStatsChart(
+                            pokemon = pokemon,
+                            modifier = Modifier
+                                .width(250.dp)
+                                .aspectRatio(1f)
+                                .weight(1f)
                         )
                     }
                 }
+            }
+        }
+    }
+}
 
-                val total = PokemonUtils.calculateTotal(pokemon.stats)
-
-                Row(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    // Types
-                    CardText(
-                        text = "Total",
-                        modifier = Modifier.weight(0.3f)
-                    )
-                    CardText(
-                        text = total.toString(),
-                        modifier = Modifier.weight(0.2f),
-                        color = Color.Black,
-                        style = TextStyle(fontWeight = FontWeight.W500)
-                    )
-                    StatisticProgressBar(
-                        value = total,
-                        total = total,
-                        modifier = Modifier.weight(0.5f)
-                    )
-                }
-
-                PokemonStatsChart(
-                    pokemon = pokemon,
-                    modifier = Modifier
-                        .width(250.dp)
-                        .height(250.dp)
-                        .align(Alignment.CenterHorizontally)
+@Composable
+fun BaseStats(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+    ) {
+        pokemon.stats.map {
+            Row(
+                modifier = Modifier.padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Types
+                CardText(
+                    text = PokemonUtils.getStatDisplayName(it),
+                    modifier = Modifier.weight(0.3f)
+                )
+                CardText(
+                    text = it.baseStat.toString(),
+                    modifier = Modifier.weight(0.15f),
+                    color = Color.Black,
+                    style = TextStyle(fontWeight = FontWeight.W500)
+                )
+                StatisticProgressBar(
+                    value = it.baseStat,
+                    total = 100,
+                    modifier = Modifier.weight(0.55f)
                 )
             }
+        }
+
+        val total = PokemonUtils.calculateTotal(pokemon.stats)
+
+        Row(
+            modifier = Modifier.padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // Types
+            CardText(
+                text = "Total",
+                modifier = Modifier.weight(0.3f)
+            )
+            CardText(
+                text = total.toString(),
+                modifier = Modifier.weight(0.2f),
+                color = Color.Black,
+                style = TextStyle(fontWeight = FontWeight.W500)
+            )
+            StatisticProgressBar(
+                value = total,
+                total = total,
+                modifier = Modifier.weight(0.5f)
+            )
         }
     }
 }
