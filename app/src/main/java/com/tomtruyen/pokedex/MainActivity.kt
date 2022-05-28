@@ -31,9 +31,6 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-//                    val systemUiController = rememberSystemUiController()
-//                    systemUiController.setStatusBarColor(Color.Transparent)
-
                     AnimatedNavHost(
                         navController = navController,
                         startDestination = Screens.Home.route
