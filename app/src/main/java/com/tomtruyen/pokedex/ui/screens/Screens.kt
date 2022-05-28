@@ -4,6 +4,7 @@ sealed class Screens(val route: String) {
     object Home : Screens("home")
     object Details: Screens("details/{pokemonId}")
     object Favorites: Screens("favorites")
+    object Team: Screens("team")
 }
 
 class ScreenUtils {
