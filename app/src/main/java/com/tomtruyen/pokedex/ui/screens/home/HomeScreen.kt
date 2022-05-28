@@ -147,7 +147,7 @@ fun HomeScreen(navController: NavHostController) {
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(end = 4.dp),
-                                onClick = {  }
+                                onClick = { navController.navigate(Screens.Team.route) }
                             )
                             MenuCard(
                                 title = "Favorieten",
