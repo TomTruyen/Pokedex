@@ -26,4 +26,8 @@ val databaseModule = module {
     single {
         get<AppDatabase>().favoritePokemonDao()
     }
+
+    single {
+        get<AppDatabase>().teamPokemonDao()
+    }
 }
