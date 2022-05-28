@@ -26,7 +26,7 @@ import androidx.compose.runtime.getValue
 @Composable
 fun FavoriteScreen(navController: NavHostController) {
     val viewModel: FavoriteScreenViewModel = viewModel(factory = viewModelFactory {
-        FavoriteScreenViewModel(dao = get())
+        FavoriteScreenViewModel(repository = get())
     })
 
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()

@@ -1,10 +1,10 @@
-package com.tomtruyen.pokedex.database.dao
+package com.tomtruyen.pokedex.database.repository
 
 import androidx.room.*
 import com.tomtruyen.pokedex.models.FavoritePokemon
 
 @Dao
-interface FavoritePokemonDao {
+interface FavoriteRepository {
     @Query("SELECT * FROM favorite_pokemon")
     suspend fun getAll(): List<FavoritePokemon>
 

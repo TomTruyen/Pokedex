@@ -1,14 +1,13 @@
-package com.tomtruyen.pokedex.database.dao
+package com.tomtruyen.pokedex.database.repository
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.tomtruyen.pokedex.models.Pokemon
 import com.tomtruyen.pokedex.models.PokemonDetails
 
 @Dao
-interface PokemonDetailsDao {
+interface PokemonDetailsRepository {
     @Query("SELECT * FROM pokemon_details WHERE id = :id")
     suspend fun getById(id: Int): PokemonDetails
 

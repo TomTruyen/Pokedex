@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomtruyen.pokedex.database.dao.FavoritePokemonDao
-import com.tomtruyen.pokedex.database.dao.PokemonDao
-import com.tomtruyen.pokedex.database.dao.PokemonDetailsDao
-import com.tomtruyen.pokedex.database.dao.TeamPokemonDao
+import com.tomtruyen.pokedex.database.repository.FavoriteRepository
+import com.tomtruyen.pokedex.database.repository.PokemonRepository
+import com.tomtruyen.pokedex.database.repository.PokemonDetailsRepository
+import com.tomtruyen.pokedex.database.repository.TeamRepository
 import com.tomtruyen.pokedex.models.*
 import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
 class DetailScreenViewModel(
     private val context: Context,
     private val id: Int,
-    private val dao: PokemonDetailsDao,
-    private val pokemonDao: PokemonDao,
-    private val favoritePokemonDao: FavoritePokemonDao,
-    private val teamPokemonDao: TeamPokemonDao
+    private val repository: PokemonDetailsRepository,
+    private val pokemonRepository: PokemonRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val teamRepository: TeamRepository
 ): ViewModel() {
     var pokemon = mutableStateOf<PokemonDetails?>(null);
     var error = mutableStateOf("")
@@ -47,7 +47,7 @@ class DetailScreenViewModel(
             try {
                 if(id == -1) throw Exception()
 
-                isFavorite.value = favoritePokemonDao.exists(id)
+                isFavorite.value = favoriteRepository.exists(id)
 
                 loadTeam()
 
@@ -62,7 +62,7 @@ class DetailScreenViewModel(
                             if(url != null) {
                                 PokemonApi.service.getEvolutionChain(url).run {
                                     pokemon.value!!.evolutions = PokemonUtils.getListOfEvolutions(
-                                        pokemonDao,
+                                        pokemonRepository,
                                         this.chain
                                     )
                                 }
@@ -71,11 +71,11 @@ class DetailScreenViewModel(
 
                         // Save detail to database
                         coroutineScope {
-                            dao.save(pokemon.value!!)
+                            repository.save(pokemon.value!!)
                         }
                     }
                 } else {
-                    pokemon.value = dao.getById(id)
+                    pokemon.value = repository.getById(id)
                     if(pokemon.value == null) {
                         throw Exception("Couldn't find local data. Please try connecting to the internet.")
                     }
@@ -96,8 +96,8 @@ class DetailScreenViewModel(
     private fun loadTeam() {
         viewModelScope.launch {
 
-            isTeam.value = teamPokemonDao.exists(id)
-            teamCount.value = teamPokemonDao.count()
+            isTeam.value = teamRepository.exists(id)
+            teamCount.value = teamRepository.count()
         }
     }
 
@@ -106,9 +106,9 @@ class DetailScreenViewModel(
             val pokemon = pokemon.value
             if (pokemon != null) {
                 if(isFavorite.value) {
-                    favoritePokemonDao.delete(pokemon.id)
+                    favoriteRepository.delete(pokemon.id)
                 } else {
-                    favoritePokemonDao.save(
+                    favoriteRepository.save(
                         FavoritePokemon(
                             id = pokemon.id,
                             name = pokemon.name,
@@ -118,7 +118,7 @@ class DetailScreenViewModel(
                     )
                 }
 
-                isFavorite.value = favoritePokemonDao.exists(pokemon.id)
+                isFavorite.value = favoriteRepository.exists(pokemon.id)
             }
         }
     }
@@ -127,7 +127,7 @@ class DetailScreenViewModel(
         viewModelScope.launch {
             val pokemon = pokemon.value
             if (pokemon != null) {
-                teamPokemonDao.save(
+                teamRepository.save(
                     TeamPokemon(
                         id = pokemon.id,
                         name = pokemon.name,
@@ -145,7 +145,7 @@ class DetailScreenViewModel(
         viewModelScope.launch {
             val pokemon = pokemon.value
             if (pokemon != null) {
-                teamPokemonDao.delete(pokemon.id)
+                teamRepository.delete(pokemon.id)
 
                 loadTeam()
             }

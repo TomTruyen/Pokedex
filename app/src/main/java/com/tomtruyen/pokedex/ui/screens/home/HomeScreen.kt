@@ -28,14 +28,16 @@ fun HomeScreen(navController: NavHostController) {
     val viewModel: HomeScreenViewModel = viewModel(factory = viewModelFactory {
         HomeScreenViewModel(
             context = LocalContext.current,
-            dao = get(),
-            favoritePokemonDao = get()
+            repository = get(),
+            favoriteRepository = get(),
+            teamRepository = get(),
         )
     })
 
     SideEffect {
         // Reloads the favorite count on resume
         viewModel.loadFavoriteCount()
+        viewModel.loadTeamCount()
     }
 
     val coroutineScope = rememberCoroutineScope()

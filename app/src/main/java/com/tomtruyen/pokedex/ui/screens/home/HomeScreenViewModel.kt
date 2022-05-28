@@ -1,12 +1,12 @@
 package com.tomtruyen.pokedex.ui.screens.home
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tomtruyen.pokedex.database.dao.FavoritePokemonDao
-import com.tomtruyen.pokedex.database.dao.PokemonDao
+import com.tomtruyen.pokedex.database.repository.FavoriteRepository
+import com.tomtruyen.pokedex.database.repository.PokemonRepository
+import com.tomtruyen.pokedex.database.repository.TeamRepository
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.models.Pokemon
 import com.tomtruyen.pokedex.service.PokemonApi
@@ -17,8 +17,9 @@ import kotlinx.coroutines.launch
 @Suppress("StaticFieldLeak")
 class HomeScreenViewModel(
     private val context: Context,
-    private val dao: PokemonDao,
-    private val favoritePokemonDao: FavoritePokemonDao,
+    private val repository: PokemonRepository,
+    private val favoriteRepository: FavoriteRepository,
+    private val teamRepository: TeamRepository
 ) : ViewModel() {
     // Basic
     private var _pokemon = listOf<Pokemon>()
@@ -43,17 +44,18 @@ class HomeScreenViewModel(
         viewModelScope.launch {
             try {
                 loadFavoriteCount()
+                loadTeamCount()
 
                 if(NetworkUtils.hasInternetConnection(context.applicationContext)) {
                     _pokemon = PokemonApi.service.getAll()
 
                     // Save data into Room (SQLite) for caching
                     coroutineScope {
-                        dao.save(_pokemon)
+                        repository.save(_pokemon)
                     }
                 } else {
                     coroutineScope {
-                        _pokemon = dao.getAll()
+                        _pokemon = repository.getAll()
                     }
                 }
 
@@ -121,7 +123,13 @@ class HomeScreenViewModel(
 
     fun loadFavoriteCount() {
         viewModelScope.launch {
-            favoriteCount.value = favoritePokemonDao.count();
+            favoriteCount.value = favoriteRepository.count();
+        }
+    }
+
+    fun loadTeamCount() {
+        viewModelScope.launch {
+            teamCount.value = teamRepository.count()
         }
     }
 }

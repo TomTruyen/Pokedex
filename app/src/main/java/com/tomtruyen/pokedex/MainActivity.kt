@@ -11,17 +11,11 @@ import androidx.compose.material.Surface
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.tomtruyen.pokedex.database.dao.FavoritePokemonDao
-import com.tomtruyen.pokedex.database.dao.PokemonDao
-import com.tomtruyen.pokedex.database.dao.PokemonDetailsDao
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
-import com.tomtruyen.pokedex.ui.screens.detail.DetailScreenViewModel
 import com.tomtruyen.pokedex.ui.screens.favorite.FavoriteScreen
 import com.tomtruyen.pokedex.ui.screens.home.HomeScreen
-import com.tomtruyen.pokedex.ui.screens.home.HomeScreenViewModel
 import com.tomtruyen.pokedex.ui.theme.PokedexTheme
-import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
 

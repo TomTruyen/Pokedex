@@ -36,10 +36,10 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
         DetailScreenViewModel(
             context = LocalContext.current,
             id = id ?: -1,
-            dao = get(),
-            pokemonDao = get(),
-            favoritePokemonDao = get(),
-            teamPokemonDao = get()
+            repository = get(),
+            pokemonRepository = get(),
+            favoriteRepository = get(),
+            teamRepository = get()
         )
     })
 

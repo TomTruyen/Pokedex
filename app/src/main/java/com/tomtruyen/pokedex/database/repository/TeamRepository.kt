@@ -1,10 +1,10 @@
-package com.tomtruyen.pokedex.database.dao
+package com.tomtruyen.pokedex.database.repository
 
 import androidx.room.*
 import com.tomtruyen.pokedex.models.TeamPokemon
 
 @Dao
-interface TeamPokemonDao {
+interface TeamRepository {
     @Query("SELECT * FROM team_pokemon")
     suspend fun getAll(): List<TeamPokemon>
 
