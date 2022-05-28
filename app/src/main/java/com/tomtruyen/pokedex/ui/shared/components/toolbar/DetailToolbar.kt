@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -32,6 +33,8 @@ fun CollapsingToolbarScope.DetailToolbar(
     isFavorite: Boolean,
     onFavorite: () -> Unit
 ) {
+    val width = LocalConfiguration.current.screenWidthDp.dp
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,16 +42,18 @@ fun CollapsingToolbarScope.DetailToolbar(
             .pin()
             .background(color = Color.Transparent)
     )
-
-    IconButton(
-        modifier = Modifier.road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.TopStart),
-        onClick = { navController.popBackStack() }
-    ) {
-        Icon(
-            imageVector = Icons.Filled.ArrowBack,
-            contentDescription = null,
-            tint = Color.White
-        )
+    
+    if(width < 600.dp) {
+        IconButton(
+            modifier = Modifier.road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.TopStart),
+            onClick = { navController.popBackStack() }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
     }
 
     Text(
