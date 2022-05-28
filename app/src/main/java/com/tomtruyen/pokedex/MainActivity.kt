@@ -8,8 +8,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen

@@ -5,15 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tomtruyen.pokedex.database.repository.FavoriteRepository
-import com.tomtruyen.pokedex.database.repository.PokemonRepository
 import com.tomtruyen.pokedex.database.repository.PokemonDetailsRepository
+import com.tomtruyen.pokedex.database.repository.PokemonRepository
 import com.tomtruyen.pokedex.database.repository.TeamRepository
-import com.tomtruyen.pokedex.models.*
+import com.tomtruyen.pokedex.models.FavoritePokemon
+import com.tomtruyen.pokedex.models.PokemonDetails
+import com.tomtruyen.pokedex.models.PokemonMove
+import com.tomtruyen.pokedex.models.TeamPokemon
 import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @Suppress("StaticFieldLeak")
@@ -24,9 +26,9 @@ class DetailScreenViewModel(
     private val pokemonRepository: PokemonRepository,
     private val favoriteRepository: FavoriteRepository,
     private val teamRepository: TeamRepository
-): ViewModel() {
+) : ViewModel() {
 
-    var pokemon = mutableStateOf<PokemonDetails?>(null);
+    var pokemon = mutableStateOf<PokemonDetails?>(null)
     var error = mutableStateOf("")
     var isFavorite = mutableStateOf(false)
     var isTeam = mutableStateOf(false)
@@ -50,21 +52,21 @@ class DetailScreenViewModel(
 
         viewModelScope.launch {
             try {
-                if(id == -1) throw Exception("Selecteer een pokémon om te laden")
+                if (id == -1) throw Exception("Selecteer een pokémon om te laden")
 
                 isFavorite.value = favoriteRepository.exists(id)
 
                 loadTeam()
 
-                if(NetworkUtils.hasInternetConnection(context.applicationContext)) {
+                if (NetworkUtils.hasInternetConnection(context.applicationContext)) {
                     pokemon.value = PokemonApi.service.getById(id)
 
-                    if(pokemon.value != null) {
+                    if (pokemon.value != null) {
                         // Get evolutions
                         PokemonApi.service.getSpecies(id).evolutionChain.run {
                             val url = this["url"]
 
-                            if(url != null) {
+                            if (url != null) {
                                 PokemonApi.service.getEvolutionChain(url).run {
                                     pokemon.value!!.evolutions = PokemonUtils.getListOfEvolutions(
                                         pokemonRepository,
@@ -81,20 +83,20 @@ class DetailScreenViewModel(
                     }
                 } else {
                     pokemon.value = repository.getById(id)
-                    if(pokemon.value == null) {
+                    if (pokemon.value == null) {
                         throw Exception("Couldn't find local data. Please try connecting to the internet.")
                     }
                 }
 
-                if(pokemon.value != null) {
+                if (pokemon.value != null) {
                     moves.value = PokemonUtils.getLevelUpMoves(pokemon.value!!.moves)
                 }
             } catch (e: Exception) {
                 error.value = e.message ?: "Something went wrong"
             }
 
-            if(isLoading.value) isLoading.value = false
-            if(isRefreshing.value) isRefreshing.value = false
+            if (isLoading.value) isLoading.value = false
+            if (isRefreshing.value) isRefreshing.value = false
         }
     }
 
@@ -110,7 +112,7 @@ class DetailScreenViewModel(
         viewModelScope.launch {
             val pokemon = pokemon.value
             if (pokemon != null) {
-                if(isFavorite.value) {
+                if (isFavorite.value) {
                     favoriteRepository.delete(pokemon.id)
                 } else {
                     favoriteRepository.save(

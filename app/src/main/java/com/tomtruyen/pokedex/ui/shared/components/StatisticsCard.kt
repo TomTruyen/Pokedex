@@ -7,27 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
-import com.github.mikephil.charting.charts.RadarChart
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.MarkerView
-import com.github.mikephil.charting.data.RadarData
-import com.github.mikephil.charting.data.RadarDataSet
-import com.github.mikephil.charting.data.RadarEntry
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.ui.shared.components.charts.PokemonStatsChart
 import com.tomtruyen.pokedex.utils.PokemonUtils
-import com.tomtruyen.pokedex.R
 
 @Composable
 fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
@@ -38,7 +25,7 @@ fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
             shape = RoundedCornerShape(10.dp),
         ) {
             BoxWithConstraints {
-                if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
+                if (maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         BaseStats(pokemon = pokemon)
 

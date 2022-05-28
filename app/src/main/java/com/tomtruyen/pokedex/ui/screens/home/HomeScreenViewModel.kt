@@ -46,7 +46,7 @@ class HomeScreenViewModel(
                 loadFavoriteCount()
                 loadTeamCount()
 
-                if(NetworkUtils.hasInternetConnection(context.applicationContext)) {
+                if (NetworkUtils.hasInternetConnection(context.applicationContext)) {
                     _pokemon = PokemonApi.service.getAll()
 
                     // Save data into Room (SQLite) for caching
@@ -79,7 +79,7 @@ class HomeScreenViewModel(
     }
 
     fun filterByTypes(type: String) {
-        if(filterTypes.value.contains(type)) {
+        if (filterTypes.value.contains(type)) {
             filterTypes.value = filterTypes.value.filter { it != type }
         } else {
             val types = filterTypes.value.toMutableList()
@@ -99,19 +99,19 @@ class HomeScreenViewModel(
     private fun filter() {
         var filteredPokemon = _pokemon
 
-        if(searchQuery.value.isNotEmpty()) {
+        if (searchQuery.value.isNotEmpty()) {
             filteredPokemon = filteredPokemon.filter {
                 it.id.toString().contains(searchQuery.value) || it.name.contains(searchQuery.value)
             }
         }
 
-        if(filterTypes.value.isNotEmpty()) {
+        if (filterTypes.value.isNotEmpty()) {
             filteredPokemon = filteredPokemon.filter { pokemon ->
                 pokemon.types.any { filterTypes.value.contains(it.type["name"]) }
             }
         }
 
-        filteredPokemon = when(sort.value) {
+        filteredPokemon = when (sort.value) {
             Sort.ALPHABETIC_ASC -> filteredPokemon.sortedBy { pokemon -> pokemon.name }
             Sort.ALPHABETIC_DESC -> filteredPokemon.sortedByDescending { pokemon -> pokemon.name }
             Sort.NUMERIC_ASC -> filteredPokemon.sortedBy { pokemon -> pokemon.id }
@@ -123,7 +123,7 @@ class HomeScreenViewModel(
 
     fun loadFavoriteCount() {
         viewModelScope.launch {
-            favoriteCount.value = favoriteRepository.count();
+            favoriteCount.value = favoriteRepository.count()
         }
     }
 

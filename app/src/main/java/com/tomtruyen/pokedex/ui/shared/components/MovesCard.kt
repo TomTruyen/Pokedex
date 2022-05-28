@@ -1,13 +1,8 @@
 package com.tomtruyen.pokedex.ui.shared.components
 
-import android.widget.GridLayout
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +16,7 @@ import kotlin.math.ceil
 @Composable
 fun MovesCard(moves: List<PokemonMove>) {
     // Split in 2 because each "RowItem" contains a column with 2 moves
-    val rowItemCount = ceil(moves.size.toDouble() / 4 ).toInt()
+    val rowItemCount = ceil(moves.size.toDouble() / 4).toInt()
 
     Column {
         CardTitle(text = "Moveset")
@@ -30,7 +25,9 @@ fun MovesCard(moves: List<PokemonMove>) {
             shape = RoundedCornerShape(10.dp),
         ) {
             HorizontalPager(
-                modifier = Modifier.padding(8.dp).height(100.dp),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .height(100.dp),
                 count = rowItemCount
             ) { page ->
                 val startIndex = page * 4
@@ -44,14 +41,14 @@ fun MovesCard(moves: List<PokemonMove>) {
                         verticalArrangement = Arrangement.Top,
                         modifier = Modifier.weight(0.5f),
                     ) {
-                        if(startIndex < moves.size)
+                        if (startIndex < moves.size)
                             Move(
                                 level = moves[startIndex].versionGroupDetails[0].levelLearnedAt,
                                 name = moves[startIndex].move.name,
                                 modifier = Modifier.padding(8.dp)
                             )
 
-                        if(startIndex + 1 < moves.size)
+                        if (startIndex + 1 < moves.size)
                             Move(
                                 level = moves[startIndex + 1].versionGroupDetails[0].levelLearnedAt,
                                 name = moves[startIndex + 1].move.name,
@@ -60,14 +57,14 @@ fun MovesCard(moves: List<PokemonMove>) {
                     }
 
                     Column {
-                        if(startIndex + 2 < moves.size)
+                        if (startIndex + 2 < moves.size)
                             Move(
                                 level = moves[startIndex + 2].versionGroupDetails[0].levelLearnedAt,
                                 name = moves[startIndex + 2].move.name,
                                 modifier = Modifier.padding(8.dp)
                             )
 
-                        if(startIndex + 3 < moves.size)
+                        if (startIndex + 3 < moves.size)
                             Move(
                                 level = moves[startIndex + 3].versionGroupDetails[0].levelLearnedAt,
                                 name = moves[startIndex + 3].move.name,

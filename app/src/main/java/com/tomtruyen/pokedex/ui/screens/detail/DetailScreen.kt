@@ -6,7 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -34,7 +37,6 @@ import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
@@ -53,12 +55,11 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
     })
 
     SideEffect {
-        if(viewModel.id != id) {
+        if (viewModel.id != id) {
             viewModel.id = id
             viewModel.load()
         }
     }
-
 
 
     val pokemon by remember { viewModel.pokemon }
@@ -66,7 +67,7 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
     val isLoading by remember { viewModel.isLoading }
     val isRefreshing by remember { viewModel.isRefreshing }
 
-    if(isLoading) {
+    if (isLoading) {
         Loader(modifier = modifier)
     } else {
         SwipeRefresh(
@@ -111,7 +112,11 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
 }
 
 @Composable
-private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostController, viewModel: DetailScreenViewModel) {
+private fun DetailScreenContent(
+    pokemon: PokemonDetails,
+    navController: NavHostController,
+    viewModel: DetailScreenViewModel
+) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
     val isFavorite by remember { viewModel.isFavorite }
@@ -159,7 +164,7 @@ private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostC
                         .verticalScroll(rememberScrollState())
                         .padding(20.dp)
                 ) {
-                    if(this@BoxWithConstraints.maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
+                    if (this@BoxWithConstraints.maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                         ImageCarousel(pokemon = pokemon)
                         AboutCard(pokemon = pokemon)
                         StatisticsCard(pokemon = pokemon)
@@ -197,7 +202,7 @@ private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostC
 
         var buttonText = "Toevoegen aan mijn team"
 
-        if(isTeam) {
+        if (isTeam) {
             buttonText = "Verwijderen uit mijn team"
         } else if (teamCount >= 6) {
             buttonText = "Team is vol"
@@ -207,7 +212,7 @@ private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostC
             text = buttonText,
             enabled = isTeam || teamCount < 6,
             onClick = {
-                if(isTeam) {
+                if (isTeam) {
                     viewModel.removeFromTeam()
                 } else {
                     viewModel.addToTeam()

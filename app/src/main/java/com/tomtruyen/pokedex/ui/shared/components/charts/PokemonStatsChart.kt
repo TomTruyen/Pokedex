@@ -48,7 +48,7 @@ fun PokemonStatsChart(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
             chart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
 
             // Hide yAxis
-            chart.yAxis.isEnabled =  false
+            chart.yAxis.isEnabled = false
 
             // Remove legend
             chart.legend.isEnabled = false

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -14,16 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.tomtruyen.pokedex.ui.shared.components.Message
 import com.tomtruyen.pokedex.ui.shared.components.PokedexItem
+import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import com.tomtruyen.pokedex.ui.shared.components.Message
-import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 
 @Composable
 fun FavoriteScreen(navController: NavHostController) {
@@ -61,7 +61,7 @@ fun FavoriteScreen(navController: NavHostController) {
             )
         }
     ) {
-        if(pokemon.isEmpty()) {
+        if (pokemon.isEmpty()) {
             Message(text = "U heeft nog geen favorieten toegevoegd")
         } else {
             LazyColumn(
