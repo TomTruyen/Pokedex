@@ -12,6 +12,7 @@ import com.tomtruyen.pokedex.event.RxEvent
 import com.tomtruyen.pokedex.models.Pokemon
 import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
+import com.tomtruyen.pokedex.enums.ViewState
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -23,11 +24,13 @@ class HomeScreenViewModel(
     private val favoriteRepository: FavoriteRepository,
     private val teamRepository: TeamRepository
 ) : ViewModel() {
+    // State
+    var state = mutableStateOf(ViewState.LOADING)
+
     // Basic
     private var _pokemon = listOf<Pokemon>()
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
     var error = mutableStateOf("")
-    var isLoading = mutableStateOf(true)
 
     // Team & card count
     var teamCount = mutableStateOf(0)
@@ -38,8 +41,8 @@ class HomeScreenViewModel(
     var sort = mutableStateOf(Sort.NUMERIC_ASC)
     var filterTypes = mutableStateOf<List<String>>(listOf())
 
-    lateinit var teamDisposable: Disposable
-    lateinit var favoriteDisposable: Disposable
+    private var teamDisposable: Disposable
+    private var favoriteDisposable: Disposable
 
     init {
         load()
@@ -78,11 +81,11 @@ class HomeScreenViewModel(
                 }
 
                 pokemon.value = _pokemon.toList()
+                state.value = ViewState.SUCCESS
             } catch (e: Exception) {
                 error.value = e.message ?: "Something went wrong"
+                state.value = ViewState.ERROR
             }
-
-            isLoading.value = false
         }
     }
 

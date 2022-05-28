@@ -35,6 +35,7 @@ import com.tomtruyen.pokedex.ui.shared.Evolutions
 import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
+import com.tomtruyen.pokedex.enums.ViewState
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -61,21 +62,19 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
         }
     }
 
-
     val pokemon by remember { viewModel.pokemon }
+    val state by remember { viewModel.state }
     val error by remember { viewModel.error }
-    val isLoading by remember { viewModel.isLoading }
-    val isRefreshing by remember { viewModel.isRefreshing }
 
-    if (isLoading) {
+    if (state == ViewState.LOADING) {
         Loader(modifier = modifier)
     } else {
         SwipeRefresh(
             modifier = modifier,
-            state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+            state = rememberSwipeRefreshState(isRefreshing = state == ViewState.REFRESHING),
             onRefresh = { viewModel.refresh() }
         ) {
-            if (error.isNotEmpty()) {
+            if (state == ViewState.ERROR) {
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -98,10 +97,11 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
                                 }
                             }
                         )
+                    },
+                    content = {
+                        Error(error = error)
                     }
-                ) {
-                    Error(error = error)
-                }
+                )
             } else {
                 pokemon?.let { pokemon ->
                     DetailScreenContent(

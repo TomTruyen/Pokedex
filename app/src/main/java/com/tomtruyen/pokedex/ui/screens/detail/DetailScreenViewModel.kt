@@ -16,6 +16,7 @@ import com.tomtruyen.pokedex.models.TeamPokemon
 import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
+import com.tomtruyen.pokedex.enums.ViewState
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,14 +29,13 @@ class DetailScreenViewModel(
     private val favoriteRepository: FavoriteRepository,
     private val teamRepository: TeamRepository
 ) : ViewModel() {
+    var state = mutableStateOf(ViewState.LOADING)
 
     var pokemon = mutableStateOf<PokemonDetails?>(null)
     var error = mutableStateOf("")
     var isFavorite = mutableStateOf(false)
     var isTeam = mutableStateOf(false)
     var teamCount = mutableStateOf(0)
-    var isLoading = mutableStateOf(true)
-    var isRefreshing = mutableStateOf(false)
     var moves = mutableStateOf<List<PokemonMove>>(listOf())
 
     init {
@@ -43,13 +43,14 @@ class DetailScreenViewModel(
     }
 
     fun refresh() {
-        isRefreshing.value = true
+        state.value = ViewState.REFRESHING
         load()
     }
 
     fun load() {
-        error.value = ""
-        isLoading.value = true
+        if(state.value != ViewState.REFRESHING) {
+            state.value = ViewState.LOADING
+        }
 
         viewModelScope.launch {
             try {
@@ -92,12 +93,12 @@ class DetailScreenViewModel(
                 if (pokemon.value != null) {
                     moves.value = PokemonUtils.getLevelUpMoves(pokemon.value!!.moves)
                 }
+
+                state.value = ViewState.SUCCESS
             } catch (e: Exception) {
                 error.value = e.message ?: "Something went wrong"
+                state.value = ViewState.ERROR
             }
-
-            if (isLoading.value) isLoading.value = false
-            if (isRefreshing.value) isRefreshing.value = false
         }
     }
 

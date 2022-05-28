@@ -23,6 +23,7 @@ import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.HomeToolbar
+import com.tomtruyen.pokedex.enums.ViewState
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -57,34 +58,38 @@ fun HomeScreen(navController: NavHostController) {
         }
     }
 
-    val isLoading by remember { viewModel.isLoading }
+    val state by remember { viewModel.state }
     val error by remember { viewModel.error }
 
-    if (isLoading) {
-        Loader()
-    } else if (error.isNotEmpty()) {
-        Error(error = error)
-    } else {
-        BoxWithConstraints {
-            if (maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
-                HomeScreenContent(navController = navController, viewModel = viewModel)
-            } else {
-                var selectedId by remember { mutableStateOf(-1) }
+    when (state) {
+        ViewState.LOADING -> {
+            Loader()
+        }
+        ViewState.ERROR -> {
+            Error(error = error)
+        }
+        else -> {
+            BoxWithConstraints {
+                if (maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
+                    HomeScreenContent(navController = navController, viewModel = viewModel)
+                } else {
+                    var selectedId by remember { mutableStateOf(-1) }
 
-                Row {
-                    HomeScreenContent(
-                        navController = navController,
-                        viewModel = viewModel,
-                        modifier = Modifier.weight(1f),
-                        onClickPokemon = {
-                            selectedId = it
-                        }
-                    )
-                    DetailScreen(
-                        navController = navController,
-                        id = selectedId,
-                        modifier = Modifier.weight(2f)
-                    )
+                    Row {
+                        HomeScreenContent(
+                            navController = navController,
+                            viewModel = viewModel,
+                            modifier = Modifier.weight(1f),
+                            onClickPokemon = {
+                                selectedId = it
+                            }
+                        )
+                        DetailScreen(
+                            navController = navController,
+                            id = selectedId,
+                            modifier = Modifier.weight(2f)
+                        )
+                    }
                 }
             }
         }
