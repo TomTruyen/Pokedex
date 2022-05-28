@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalPagerApi::class)
+
 package com.tomtruyen.pokedex.ui.screens.detail
 
 import androidx.compose.foundation.background
@@ -8,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,24 +22,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.ui.shared.Evolutions
 import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
 
 @Composable
-fun DetailScreen(navController: NavHostController, id: Int?) {
+fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier = Modifier) {
     val viewModel: DetailScreenViewModel = viewModel(factory = viewModelFactory {
         DetailScreenViewModel(
             context = LocalContext.current,
-            id = id ?: -1,
+            id = id,
             repository = get(),
             pokemonRepository = get(),
             favoriteRepository = get(),
@@ -44,21 +50,25 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
         )
     })
 
+    SideEffect {
+        if(viewModel.id != id) {
+            viewModel.id = id
+            viewModel.load()
+        }
+    }
+
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
     val pokemon by remember { viewModel.pokemon }
     val error by remember { viewModel.error }
     val isLoading by remember { viewModel.isLoading }
     val isRefreshing by remember { viewModel.isRefreshing }
-    val isFavorite by remember { viewModel.isFavorite }
-    val isTeam by remember { viewModel.isTeam }
-    val teamCount by remember { viewModel.teamCount }
-    val moves by remember { viewModel.moves }
 
     if(isLoading) {
-        Loader()
+        Loader(modifier = modifier)
     } else {
         SwipeRefresh(
+            modifier = modifier,
             state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
             onRefresh = { viewModel.refresh() }
         ) {
@@ -86,7 +96,13 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                     Error(error = error)
                 }
             } else {
-                pokemon?.let { it ->
+                pokemon?.let { pokemon ->
+
+                    val isFavorite by remember { viewModel.isFavorite }
+                    val isTeam by remember { viewModel.isTeam }
+                    val teamCount by remember { viewModel.teamCount }
+                    val moves by remember { viewModel.moves }
+
                     Box {
                         CollapsingToolbarScaffold(
                             modifier = Modifier
@@ -95,7 +111,7 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                                 .background(
                                     brush = Brush.verticalGradient(
                                         colors = PokemonUtils.getDetailBackgroundGradient(
-                                            it.types.first().type["name"] ?: ""
+                                            pokemon.types.first().type["name"] ?: ""
                                         ),
                                     )
                                 ),
@@ -107,7 +123,7 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                                     (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
 
                                 DetailToolbar(
-                                    pokemon = it,
+                                    pokemon = pokemon,
                                     textSize = textSize,
                                     navController = navController,
                                     isFavorite = isFavorite,
@@ -117,17 +133,52 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                                 )
                             }
                         ) {
-                            Column(
+                            BoxWithConstraints(
                                 modifier = Modifier
-                                    .verticalScroll(rememberScrollState())
-                                    .padding(20.dp)
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
                             ) {
-                                    ImageCarousel(pokemon = it)
-                                    AboutCard(pokemon = it)
-                                    StatisticsCard(pokemon = it)
-                                    MovesCard(moves = moves)
-                                    Evolutions(navController = navController, pokemon = it)
+                                Column(
+                                    modifier = Modifier
+                                        .verticalScroll(rememberScrollState())
+                                        .padding(20.dp)
+                                ) {
+                                    if(this@BoxWithConstraints.maxWidth < 600.dp) {
+                                        ImageCarousel(pokemon = pokemon)
+                                        AboutCard(pokemon = pokemon)
+                                        StatisticsCard(pokemon = pokemon)
+                                        MovesCard(moves = moves)
+                                        Evolutions(navController = navController, pokemon = pokemon)
+                                    } else {
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(20.dp)
+                                        ) {
+                                            Column(
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                ImageCarousel(pokemon = pokemon)
+                                                AboutCard(pokemon = pokemon)
+                                            }
+
+                                            Spacer(modifier = Modifier.width(32.dp))
+
+                                            Column(
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                MovesCard(moves = moves)
+                                                Evolutions(navController = navController, pokemon = pokemon)
+                                            }
+                                        }
+
+                                        StatisticsCard(
+                                            pokemon = pokemon,
+                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                        )
+                                    }
+
                                     Spacer(modifier = Modifier.height(50.dp))
+                                }
                             }
                         }
 
@@ -157,5 +208,116 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DetailScreenContent(toolbarScaffoldState: CollapsingToolbarScaffoldState, pokemon: PokemonDetails, navController: NavHostController, viewModel: DetailScreenViewModel) {
+
+
+    val isFavorite by remember { viewModel.isFavorite }
+    val isTeam by remember { viewModel.isTeam }
+    val teamCount by remember { viewModel.teamCount }
+    val moves by remember { viewModel.moves }
+
+    Box {
+        CollapsingToolbarScaffold(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = PokemonUtils.getDetailBackgroundGradient(
+                            pokemon.types.first().type["name"] ?: ""
+                        ),
+                    )
+                ),
+            state = toolbarScaffoldState,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
+                // Calculate the textSize based on the current state of the toolbar
+                val textSize =
+                    (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
+
+                DetailToolbar(
+                    pokemon = pokemon,
+                    textSize = textSize,
+                    navController = navController,
+                    isFavorite = isFavorite,
+                    onFavorite = {
+                        viewModel.toggleFavorite()
+                    }
+                )
+            }
+        ) {
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(20.dp)
+                ) {
+                    if(this@BoxWithConstraints.maxWidth < 600.dp) {
+                        ImageCarousel(pokemon = pokemon)
+                        AboutCard(pokemon = pokemon)
+                        StatisticsCard(pokemon = pokemon)
+                        MovesCard(moves = moves)
+                        Evolutions(navController = navController, pokemon = pokemon)
+                        Spacer(modifier = Modifier.height(50.dp))
+                    } else {
+                        Row(
+                            modifier = Modifier
+                                .padding(20.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                ImageCarousel(pokemon = pokemon)
+                                AboutCard(pokemon = pokemon)
+                            }
+
+                            Spacer(modifier = Modifier.width(32.dp))
+
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                MovesCard(moves = moves)
+                                Evolutions(navController = navController, pokemon = pokemon)
+                            }
+                        }
+
+                        StatisticsCard(pokemon = pokemon)
+                        Spacer(modifier = Modifier.height(150.dp))
+                    }
+
+                }
+            }
+        }
+
+        var buttonText = "Toevoegen aan mijn team"
+
+        if(isTeam) {
+            buttonText = "Verwijderen uit mijn team"
+        } else if (teamCount >= 6) {
+            buttonText = "Team is vol"
+        }
+
+        PrimaryButton(
+            text = buttonText,
+            enabled = isTeam || teamCount < 6,
+            onClick = {
+                if(isTeam) {
+                    viewModel.removeFromTeam()
+                } else {
+                    viewModel.addToTeam()
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        )
     }
 }
