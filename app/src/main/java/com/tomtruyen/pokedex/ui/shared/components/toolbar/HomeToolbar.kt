@@ -1,4 +1,4 @@
-package com.tomtruyen.pokedex.ui.screens.home
+package com.tomtruyen.pokedex.ui.shared.components.toolbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,7 +18,6 @@ import com.tomtruyen.pokedex.R
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScope
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CollapsingToolbarScope.HomeToolbar(
     textSize: TextUnit,

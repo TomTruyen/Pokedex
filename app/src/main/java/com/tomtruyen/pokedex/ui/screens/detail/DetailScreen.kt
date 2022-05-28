@@ -23,6 +23,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tomtruyen.pokedex.ui.shared.Evolutions
 import com.tomtruyen.pokedex.ui.shared.components.*
+import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import me.onebone.toolbar.CollapsingToolbarScaffold

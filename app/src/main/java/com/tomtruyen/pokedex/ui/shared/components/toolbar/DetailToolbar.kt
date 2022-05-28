@@ -1,4 +1,4 @@
-package com.tomtruyen.pokedex.ui.screens.detail
+package com.tomtruyen.pokedex.ui.shared.components.toolbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

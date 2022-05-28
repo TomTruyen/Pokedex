@@ -1,4 +1,4 @@
-package com.tomtruyen.pokedex.ui.screens.favorite
+package com.tomtruyen.pokedex.ui.shared.components.toolbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,6 +26,7 @@ import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable
 fun CollapsingToolbarScope.FavoriteToolbar(
+    title: String,
     textSize: TextUnit,
     navController: NavHostController,
 ) {
@@ -49,7 +50,7 @@ fun CollapsingToolbarScope.FavoriteToolbar(
     }
 
     Text(
-        text = "Favorieten",
+        text = title,
         style = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = textSize,

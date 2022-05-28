@@ -18,6 +18,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
+import com.tomtruyen.pokedex.ui.shared.components.toolbar.HomeToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
