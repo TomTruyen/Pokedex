@@ -37,11 +37,11 @@ fun CollapsingToolbarScope.HomeToolbar(
 
     Text(
         modifier = Modifier
+            .padding(vertical = 12.dp, horizontal = 16.dp)
             .road(
                 whenCollapsed = Alignment.TopStart,
                 whenExpanded = Alignment.BottomStart
-            )
-            .padding(16.dp),
+            ),
         text = "Pokédex",
         style = TextStyle(
             fontSize = textSize,

@@ -59,7 +59,7 @@ fun CollapsingToolbarScope.DetailToolbar(
             color = Color.White
         ),
         modifier = Modifier
-            .padding(16.dp)
+            .padding(vertical = 12.dp, horizontal = 16.dp)
             .road(
                 whenCollapsed = Alignment.TopCenter,
                 whenExpanded = Alignment.BottomStart
