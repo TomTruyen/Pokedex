@@ -163,7 +163,6 @@ private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostC
                         StatisticsCard(pokemon = pokemon)
                         MovesCard(moves = moves)
                         Evolutions(navController = navController, pokemon = pokemon)
-                        Spacer(modifier = Modifier.height(50.dp))
                     } else {
                         Row(
                             modifier = Modifier
@@ -187,9 +186,9 @@ private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostC
                         }
 
                         StatisticsCard(pokemon = pokemon)
-                        Spacer(modifier = Modifier.height(150.dp))
                     }
 
+                    Spacer(modifier = Modifier.height(50.dp))
                 }
             }
         }
