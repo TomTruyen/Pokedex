@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -16,6 +17,7 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
@@ -51,7 +53,7 @@ fun HomeScreen(navController: NavHostController) {
         Error(error = error)
     } else {
         BoxWithConstraints {
-            if(maxWidth < 600.dp) {
+            if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                 HomeScreenContent(navController = navController, viewModel = viewModel)
             } else {
                 var selectedId by remember { mutableStateOf(-1) }

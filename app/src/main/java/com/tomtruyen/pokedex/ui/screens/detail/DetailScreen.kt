@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +26,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.ui.shared.Evolutions
 import com.tomtruyen.pokedex.ui.shared.components.*
@@ -157,7 +159,7 @@ private fun DetailScreenContent(pokemon: PokemonDetails, navController: NavHostC
                         .verticalScroll(rememberScrollState())
                         .padding(20.dp)
                 ) {
-                    if(this@BoxWithConstraints.maxWidth < 600.dp) {
+                    if(this@BoxWithConstraints.maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                         ImageCarousel(pokemon = pokemon)
                         AboutCard(pokemon = pokemon)
                         StatisticsCard(pokemon = pokemon)

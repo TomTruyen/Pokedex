@@ -1,6 +1,5 @@
 package com.tomtruyen.pokedex.ui.shared.components
 
-import android.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -10,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,7 +27,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.ui.shared.components.charts.PokemonStatsChart
 import com.tomtruyen.pokedex.utils.PokemonUtils
-
+import com.tomtruyen.pokedex.R
 
 @Composable
 fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
@@ -38,7 +38,7 @@ fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
             shape = RoundedCornerShape(10.dp),
         ) {
             BoxWithConstraints {
-                if(maxWidth < 600.dp) {
+                if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         BaseStats(pokemon = pokemon)
 
@@ -56,7 +56,8 @@ fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
                     ) {
                         BaseStats(
                             pokemon = pokemon,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .weight(1f)
                                 .padding(20.dp)
                         )
                         PokemonStatsChart(

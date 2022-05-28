@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.tomtruyen.pokedex.models.PokemonDetails
 import me.onebone.toolbar.CollapsingToolbarScope
+import com.tomtruyen.pokedex.R
 
 @Composable
 fun CollapsingToolbarScope.DetailToolbar(
@@ -43,7 +45,7 @@ fun CollapsingToolbarScope.DetailToolbar(
             .background(color = Color.Transparent)
     )
     
-    if(width < 600.dp) {
+    if(width < integerResource(id = R.integer.large_screen_size).dp) {
         IconButton(
             modifier = Modifier.road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.TopStart),
             onClick = { navController.popBackStack() }
