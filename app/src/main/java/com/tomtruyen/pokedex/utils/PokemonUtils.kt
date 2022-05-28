@@ -110,7 +110,7 @@ class PokemonUtils {
                 "dragon" -> R.color.dragon
                 "fairy" -> R.color.fairy
                 "steel" -> R.color.steel
-                else -> return R.color.black
+                else -> R.color.black
             }
         }
 
