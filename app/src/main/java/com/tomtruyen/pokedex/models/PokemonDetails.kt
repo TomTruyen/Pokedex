@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull
     ListPokemonAbilityConverter::class,
     ListPokemonStatisticConverter::class,
     ListPokemonMoveConverter::class,
+    ListPokemonConverter::class,
     MapStringAnyTypeConverter::class
 )
 data class PokemonDetails(
@@ -26,5 +27,6 @@ data class PokemonDetails(
     val stats: List<PokemonStatistic>,
     val moves: List<PokemonMove>,
     val height: Int,
-    val weight: Int
+    val weight: Int,
+    var evolutions: List<Pokemon>?,
 ) : BasePokemon
