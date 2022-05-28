@@ -4,8 +4,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.tomtruyen.pokedex.R
-import com.tomtruyen.pokedex.models.PokemonMove
-import com.tomtruyen.pokedex.models.PokemonStatistic
+import com.tomtruyen.pokedex.database.dao.PokemonDao
+import com.tomtruyen.pokedex.models.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import org.koin.androidx.compose.get
 
 class PokemonUtils {
     companion object {
@@ -172,6 +175,24 @@ class PokemonUtils {
                 "fairy",
                 "steel",
             )
+        }
+
+        suspend fun getListOfEvolutions(pokemonDao: PokemonDao, evolutions: Evolution): List<Pokemon> {
+            val evolutionList = mutableListOf<Pokemon>()
+
+            coroutineScope {
+                val pokemon = pokemonDao.getByName(evolutions.species.name)
+
+                if(pokemon != null) {
+                    evolutionList.add(pokemon)
+                }
+
+                for(evolution in evolutions.evolution) {
+                    evolutionList.addAll(getListOfEvolutions(pokemonDao, evolution))
+                }
+            }
+
+            return evolutionList
         }
     }
 }
