@@ -28,10 +28,16 @@ fun HomeScreen(navController: NavHostController) {
     val viewModel: HomeScreenViewModel = viewModel(factory = viewModelFactory {
         HomeScreenViewModel(
             context = LocalContext.current,
-            dao = get()
+            dao = get(),
+            favoritePokemonDao = get()
         )
     })
 
+    SideEffect {
+        // Reloads the favorite count on resume
+        viewModel.loadFavoriteCount()
+    }
+    
     val coroutineScope = rememberCoroutineScope()
 
     val sheetState = rememberModalBottomSheetState(
@@ -49,6 +55,10 @@ fun HomeScreen(navController: NavHostController) {
     val pokemon by remember { viewModel.pokemon }
     val isLoading by remember { viewModel.isLoading }
     val error by remember { viewModel.error }
+
+    val teamCount by remember { viewModel.teamCount }
+    val favoriteCount by remember { viewModel.favoriteCount }
+
     val searchQuery by remember { viewModel.searchQuery }
     val sort by remember { viewModel.sort }
     val filterTypes by remember { viewModel.filterTypes }
@@ -126,7 +136,7 @@ fun HomeScreen(navController: NavHostController) {
                         ) {
                             MenuCard(
                                 title = "Mijn team",
-                                subtitle = "x pokemons",
+                                subtitle = "$teamCount pokemons",
                                 colors = listOf(
                                     Color(70, 70, 156),
                                     Color(126, 50, 224),
@@ -138,7 +148,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                             MenuCard(
                                 title = "Favorieten",
-                                subtitle = "x pokemons",
+                                subtitle = "$favoriteCount pokemons",
                                 colors = listOf(
                                     Color(101, 203, 154),
                                     Color(21, 208, 220),

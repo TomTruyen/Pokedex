@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tomtruyen.pokedex.database.dao.FavoritePokemonDao
 import com.tomtruyen.pokedex.database.dao.PokemonDao
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.models.Pokemon
@@ -16,12 +17,20 @@ import kotlinx.coroutines.launch
 @Suppress("StaticFieldLeak")
 class HomeScreenViewModel(
     private val context: Context,
-    private val dao: PokemonDao
+    private val dao: PokemonDao,
+    private val favoritePokemonDao: FavoritePokemonDao,
 ) : ViewModel() {
+    // Basic
     private var _pokemon = listOf<Pokemon>()
     var pokemon = mutableStateOf<List<Pokemon>>(listOf())
     var error = mutableStateOf("")
     var isLoading = mutableStateOf(true)
+
+    // Team & card count
+    var teamCount = mutableStateOf(0)
+    var favoriteCount = mutableStateOf(0)
+
+    // Filters
     var searchQuery = mutableStateOf("")
     var sort = mutableStateOf(Sort.NUMERIC_ASC)
     var filterTypes = mutableStateOf<List<String>>(listOf())
@@ -33,6 +42,8 @@ class HomeScreenViewModel(
     private fun load() {
         viewModelScope.launch {
             try {
+                loadFavoriteCount()
+
                 if(NetworkUtils.hasInternetConnection(context.applicationContext)) {
                     _pokemon = PokemonApi.service.getAll()
 
@@ -106,5 +117,11 @@ class HomeScreenViewModel(
         }
 
         pokemon.value = filteredPokemon
+    }
+
+    fun loadFavoriteCount() {
+        viewModelScope.launch {
+            favoriteCount.value = favoritePokemonDao.count();
+        }
     }
 }

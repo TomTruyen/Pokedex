@@ -16,4 +16,7 @@ interface FavoritePokemonDao {
 
     @Query("SELECT EXISTS(SELECT * FROM favorite_pokemon WHERE id = :id)")
     suspend fun exists(id: Int): Boolean
+
+    @Query("SELECT COUNT(*) FROM favorite_pokemon")
+    suspend fun count(): Int
 }
