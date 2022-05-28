@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://pokeapi.co/api/v2/pokemon/")
+        .baseUrl("https://pokeapi.co/api/v2/")
         .build()
 
 object PokemonApi {
