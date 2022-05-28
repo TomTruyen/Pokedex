@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.tomtruyen.pokedex.R
 
 @Composable
-fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier) {
+fun PrimaryButton(text: String, onClick: () -> Unit, enabled: Boolean = true, modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         modifier = modifier
@@ -26,7 +26,8 @@ fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier) {
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.dark_one)
         ),
-        elevation = ButtonDefaults.elevation(0.dp, 0.dp)
+        elevation = ButtonDefaults.elevation(0.dp, 0.dp),
+        enabled = enabled
     ) {
         Text(
             text = text,
