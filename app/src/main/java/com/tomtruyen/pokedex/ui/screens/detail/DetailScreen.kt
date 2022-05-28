@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.tomtruyen.pokedex.ui.shared.Evolutions
 import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.utils.viewModelFactory
@@ -35,6 +36,7 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
             context = LocalContext.current,
             id = id,
             dao = get(),
+            pokemonDao = get(),
             favoritePokemonDao = get()
         )
     })
@@ -80,7 +82,7 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                     Error(error = error)
                 }
             } else {
-                pokemon?.let {
+                pokemon?.let { it ->
                     CollapsingToolbarScaffold(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -120,6 +122,7 @@ fun DetailScreen(navController: NavHostController, id: Int?) {
                             AboutCard(pokemon = it)
                             StatisticsCard(pokemon = it)
                             MovesCard(moves = moves)
+                            Evolutions(navController = navController, pokemon = it)
                         }
                     }
                 }
