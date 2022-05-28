@@ -24,6 +24,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,14 +36,20 @@ import com.tomtruyen.pokedex.ui.screens.ScreenUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 @Composable
-fun PokedexItem(pokemon: BasePokemon, navController: NavHostController) {
-
+fun PokedexItem(
+    pokemon: BasePokemon,
+    navController: NavHostController,
+    color: Color = Color.White,
+    elevation: Dp = 1.dp,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp),
         shape = RoundedCornerShape(10.dp),
-        elevation = 1.dp,
+        backgroundColor = color,
+        elevation = elevation
+
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
