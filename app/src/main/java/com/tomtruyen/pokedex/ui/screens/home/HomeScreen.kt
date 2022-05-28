@@ -44,6 +44,9 @@ fun HomeScreen(navController: NavHostController) {
 
     SideEffect {
         // Reloads the favorite count on resume
+        // RxJava is used for tablets (split-screen)
+        // On normal phones the viewModel is removed when the screen is navigated
+        // This is a workaround to make sure the data is updated
         viewModel.loadFavoriteCount()
         viewModel.loadTeamCount()
     }
