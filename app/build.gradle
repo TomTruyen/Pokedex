@@ -95,4 +95,7 @@ dependencies {
 
     // Swipe to refresh
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+
+    // Charting library for Radar chart (stats)
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
