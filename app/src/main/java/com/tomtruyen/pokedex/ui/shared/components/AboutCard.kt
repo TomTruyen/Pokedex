@@ -22,7 +22,7 @@ fun AboutCard(pokemon: PokemonDetails) {
     Column {
         CardTitle(text = "Info")
         Card(
-            modifier = Modifier.padding(top = 8.dp, bottom = 28.dp),
+            modifier = Modifier.padding(top = 12.dp, bottom = 28.dp),
             shape = RoundedCornerShape(10.dp),
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
