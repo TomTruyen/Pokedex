@@ -1,10 +1,10 @@
 package com.tomtruyen.pokedex.di
 
 import androidx.room.Room
-import com.tomtruyen.pokedex.database.AppDatabase
-import org.koin.dsl.module
-import org.koin.android.ext.koin.androidApplication
 import com.tomtruyen.pokedex.R
+import com.tomtruyen.pokedex.database.AppDatabase
+import org.koin.android.ext.koin.androidApplication
+import org.koin.dsl.module
 
 val databaseModule = module {
     single {

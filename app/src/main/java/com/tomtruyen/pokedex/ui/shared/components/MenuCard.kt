@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -22,9 +21,16 @@ import com.tomtruyen.pokedex.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -> Unit, modifier: Modifier) {
+fun MenuCard(
+    title: String,
+    subtitle: String,
+    colors: List<Color>,
+    onClick: () -> Unit,
+    modifier: Modifier
+) {
     Card(
-        modifier = modifier.height(100.dp)
+        modifier = modifier
+            .height(100.dp)
             .background(
                 brush = Brush.horizontalGradient(
                     colors = colors
@@ -43,7 +49,8 @@ fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -
                 contentDescription = null
             )
             Column(
-                modifier = Modifier.background(Color.Transparent)
+                modifier = Modifier
+                    .background(Color.Transparent)
                     .padding(horizontal = 15.dp, vertical = 10.dp)
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Bottom
@@ -51,7 +58,11 @@ fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -
                 Text(
 
                     text = title,
-                    style = TextStyle(color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    style = TextStyle(
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
                 )
                 Text(
                     text = subtitle,

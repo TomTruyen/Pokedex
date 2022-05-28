@@ -17,4 +17,4 @@ data class Pokemon(
     override val name: String,
     override val sprites: Map<String, String>,
     override val types: List<PokemonType>,
- ) : BasePokemon
+) : BasePokemon

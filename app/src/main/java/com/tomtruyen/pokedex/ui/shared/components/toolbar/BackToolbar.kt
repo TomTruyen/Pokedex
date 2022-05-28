@@ -10,8 +10,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.tomtruyen.pokedex.models.PokemonDetails
 import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable
@@ -39,7 +36,10 @@ fun CollapsingToolbarScope.BackToolbar(
     )
 
     IconButton(
-        modifier = Modifier.road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.TopStart),
+        modifier = Modifier.road(
+            whenCollapsed = Alignment.TopStart,
+            whenExpanded = Alignment.TopStart
+        ),
         onClick = { navController.popBackStack() }
     ) {
         Icon(

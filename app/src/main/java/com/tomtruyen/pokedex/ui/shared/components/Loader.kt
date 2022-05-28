@@ -27,9 +27,11 @@ fun Loader(modifier: Modifier = Modifier) {
     )
 
     Column(
-        modifier = modifier.fillMaxSize().graphicsLayer {
-            rotationZ = angle
-        },
+        modifier = modifier
+            .fillMaxSize()
+            .graphicsLayer {
+                rotationZ = angle
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 

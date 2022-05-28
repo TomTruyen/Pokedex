@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,10 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
-import com.tomtruyen.pokedex.enums.Sort
 
 @Composable
-fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  modifier: Modifier) {
+fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier) {
     var rowModifier = modifier
         .fillMaxWidth()
         .height(40.dp)
@@ -38,7 +35,7 @@ fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  m
         .clip(RoundedCornerShape(10.dp))
         .clickable { onClick() }
 
-    if(selected) {
+    if (selected) {
         rowModifier = rowModifier.then(
             Modifier.border(
                 brush = Brush.horizontalGradient(
@@ -68,7 +65,7 @@ fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  m
             modifier = Modifier.weight(1f)
         )
 
-        if(selected) {
+        if (selected) {
             Icon(
                 modifier = Modifier
                     .graphicsLayer(alpha = 0.99f)

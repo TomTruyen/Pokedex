@@ -16,7 +16,7 @@ class PokemonUtils {
         fun getStatDisplayName(statistic: PokemonStatistic): String {
             val name = statistic.stat["name"] ?: return ""
 
-            return when(name.lowercase()) {
+            return when (name.lowercase()) {
                 "hp" -> "HP"
                 "attack" -> "Attack"
                 "defense" -> "Defense"
@@ -131,7 +131,7 @@ class PokemonUtils {
                 "psychic" -> listOf(Color(0xFFfa6e99), Color(R.color.psychic))
                 "poison" -> listOf(Color(0xFFd38fe3), Color(R.color.poison))
                 "ghost" -> listOf(Color(0xFF8c70ba), Color(R.color.ghost))
-                "rock" ->listOf(Color(0xFFd1b93d), Color(R.color.rock))
+                "rock" -> listOf(Color(0xFFd1b93d), Color(R.color.rock))
                 "ground" -> listOf(Color(0xFFf5ce6c), Color(R.color.ground))
                 "dark" -> listOf(Color(0xFF8a6b57), Color(R.color.dark))
                 "ice" -> listOf(Color(0xFFa4edea), Color(R.color.ice))
@@ -173,17 +173,20 @@ class PokemonUtils {
             )
         }
 
-        suspend fun getListOfEvolutions(pokemonRepository: PokemonRepository, evolutions: Evolution): List<Pokemon> {
+        suspend fun getListOfEvolutions(
+            pokemonRepository: PokemonRepository,
+            evolutions: Evolution
+        ): List<Pokemon> {
             val evolutionList = mutableListOf<Pokemon>()
 
             coroutineScope {
                 val pokemon = pokemonRepository.getByName(evolutions.species.name)
 
-                if(pokemon != null) {
+                if (pokemon != null) {
                     evolutionList.add(pokemon)
                 }
 
-                for(evolution in evolutions.evolution) {
+                for (evolution in evolutions.evolution) {
                     evolutionList.addAll(getListOfEvolutions(pokemonRepository, evolution))
                 }
             }

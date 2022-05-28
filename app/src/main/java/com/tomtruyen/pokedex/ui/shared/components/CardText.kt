@@ -8,13 +8,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CardText(text: String, modifier: Modifier = Modifier, color: Color = Color(0xFFACB2C1), style: TextStyle = TextStyle()) {
+fun CardText(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color(0xFFACB2C1),
+    style: TextStyle = TextStyle()
+) {
     Text(
         text = text,
-        style = style.merge(TextStyle(
-            fontSize = 15.sp,
-            color = color
-        )),
+        style = style.merge(
+            TextStyle(
+                fontSize = 15.sp,
+                color = color
+            )
+        ),
         modifier = modifier
     )
 }

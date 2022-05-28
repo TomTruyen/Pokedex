@@ -1,9 +1,13 @@
 package com.tomtruyen.pokedex.ui.screens.home
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -11,19 +15,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.tomtruyen.pokedex.ui.shared.components.*
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
+import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.HomeToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import kotlinx.coroutines.launch
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
 
 @ExperimentalMaterialApi
@@ -47,31 +51,31 @@ fun HomeScreen(navController: NavHostController) {
     val isLoading by remember { viewModel.isLoading }
     val error by remember { viewModel.error }
 
-    if(isLoading) {
+    if (isLoading) {
         Loader()
     } else if (error.isNotEmpty()) {
         Error(error = error)
     } else {
         BoxWithConstraints {
-            if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
+            if (maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                 HomeScreenContent(navController = navController, viewModel = viewModel)
             } else {
                 var selectedId by remember { mutableStateOf(-1) }
 
                 Row {
-                   HomeScreenContent(
-                       navController = navController,
-                       viewModel = viewModel,
-                       modifier = Modifier.weight(1f),
-                       onClickPokemon = {
-                           selectedId = it
-                       }
-                   )
+                    HomeScreenContent(
+                        navController = navController,
+                        viewModel = viewModel,
+                        modifier = Modifier.weight(1f),
+                        onClickPokemon = {
+                            selectedId = it
+                        }
+                    )
                     DetailScreen(
-                       navController = navController,
-                       id = selectedId,
-                       modifier = Modifier.weight(2f)
-                   )
+                        navController = navController,
+                        id = selectedId,
+                        modifier = Modifier.weight(2f)
+                    )
                 }
             }
         }
@@ -114,7 +118,7 @@ private fun HomeScreenContent(
         sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
         sheetBackgroundColor = Color.White,
         sheetContent = {
-            if(isSheetTypeSort) {
+            if (isSheetTypeSort) {
                 FilterTypeBottomSheet(
                     state = sheetState,
                     filterTypes = filterTypes,

@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.models.PokemonDetails
 import me.onebone.toolbar.CollapsingToolbarScope
-import com.tomtruyen.pokedex.R
 
 @Composable
 fun CollapsingToolbarScope.DetailToolbar(
@@ -44,10 +44,13 @@ fun CollapsingToolbarScope.DetailToolbar(
             .pin()
             .background(color = Color.Transparent)
     )
-    
-    if(width < integerResource(id = R.integer.large_screen_size).dp) {
+
+    if (width < integerResource(id = R.integer.large_screen_size).dp) {
         IconButton(
-            modifier = Modifier.road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.TopStart),
+            modifier = Modifier.road(
+                whenCollapsed = Alignment.TopStart,
+                whenExpanded = Alignment.TopStart
+            ),
             onClick = { navController.popBackStack() }
         ) {
             Icon(
@@ -78,7 +81,7 @@ fun CollapsingToolbarScope.DetailToolbar(
         onClick = onFavorite
     ) {
         Icon(
-            imageVector = if(isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+            imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
             contentDescription = null,
             tint = Color.White
         )

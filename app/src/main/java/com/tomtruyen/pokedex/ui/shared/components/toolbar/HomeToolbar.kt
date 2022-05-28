@@ -2,7 +2,9 @@ package com.tomtruyen.pokedex.ui.shared.components.toolbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -15,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
-import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable

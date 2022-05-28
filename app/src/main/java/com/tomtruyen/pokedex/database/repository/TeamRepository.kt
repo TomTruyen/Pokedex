@@ -1,6 +1,9 @@
 package com.tomtruyen.pokedex.database.repository
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.tomtruyen.pokedex.models.TeamPokemon
 
 @Dao

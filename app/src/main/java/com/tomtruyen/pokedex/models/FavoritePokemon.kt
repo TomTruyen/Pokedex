@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.tomtruyen.pokedex.utils.converters.ListPokemonTypeConverter
 import com.tomtruyen.pokedex.utils.converters.MapStringAnyTypeConverter
-import com.tomtruyen.pokedex.utils.converters.MapStringTypeConverter
 
 @Entity(tableName = "favorite_pokemon")
 @TypeConverters(ListPokemonTypeConverter::class, MapStringAnyTypeConverter::class)
