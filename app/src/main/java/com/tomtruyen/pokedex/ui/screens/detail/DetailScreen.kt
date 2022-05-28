@@ -43,7 +43,11 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
 
 @Composable
-fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier = Modifier) {
+fun DetailScreen(
+    navController: NavHostController,
+    id: Int, modifier: Modifier = Modifier,
+    onClickPokemon: ((Int) -> Unit)? = null
+) {
     val viewModel: DetailScreenViewModel = viewModel(factory = viewModelFactory {
         DetailScreenViewModel(
             context = LocalContext.current,
@@ -107,7 +111,8 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
                     DetailScreenContent(
                         pokemon = pokemon,
                         navController = navController,
-                        viewModel = viewModel
+                        viewModel = viewModel,
+                        onClickPokemon = onClickPokemon
                     )
                 }
             }
@@ -119,7 +124,8 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
 private fun DetailScreenContent(
     pokemon: PokemonDetails,
     navController: NavHostController,
-    viewModel: DetailScreenViewModel
+    viewModel: DetailScreenViewModel,
+    onClickPokemon: ((Int) -> Unit)? = null
 ) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
@@ -173,7 +179,11 @@ private fun DetailScreenContent(
                         AboutCard(pokemon = pokemon)
                         StatisticsCard(pokemon = pokemon)
                         MovesCard(moves = moves)
-                        Evolutions(navController = navController, pokemon = pokemon)
+                        Evolutions(
+                            navController = navController,
+                            pokemon = pokemon,
+                            onClickPokemon = onClickPokemon
+                        )
                     } else {
                         Row(
                             modifier = Modifier
@@ -192,7 +202,11 @@ private fun DetailScreenContent(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 MovesCard(moves = moves)
-                                Evolutions(navController = navController, pokemon = pokemon)
+                                Evolutions(
+                                    navController = navController,
+                                    pokemon = pokemon,
+                                    onClickPokemon = onClickPokemon
+                                )
                             }
                         }
 

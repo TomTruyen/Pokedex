@@ -48,7 +48,10 @@ fun FavoriteScreen(navController: NavHostController) {
                 DetailScreen(
                     navController = navController,
                     id = selectedId,
-                    modifier = Modifier.weight(2f)
+                    modifier = Modifier.weight(2f),
+                    onClickPokemon = {
+                        selectedId = it
+                    }
                 )
             }
         }

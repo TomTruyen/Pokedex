@@ -10,7 +10,11 @@ import com.tomtruyen.pokedex.ui.shared.components.CardTitle
 import com.tomtruyen.pokedex.ui.shared.components.PokedexItem
 
 @Composable
-fun Evolutions(navController: NavHostController, pokemon: PokemonDetails) {
+fun Evolutions(
+    navController: NavHostController,
+    pokemon: PokemonDetails,
+    onClickPokemon: ((Int) -> Unit)? = null
+) {
     Column {
         CardTitle(text = "Evolutie")
         pokemon.evolutions?.let { evolutions ->
@@ -21,7 +25,8 @@ fun Evolutions(navController: NavHostController, pokemon: PokemonDetails) {
                     pokemon = evolution,
                     navController = navController,
                     color = Color.White.copy(alpha = if (active) 1f else 0.5f),
-                    elevation = 0.dp
+                    elevation = 0.dp,
+                    onClick = onClickPokemon
                 )
             }
         }
