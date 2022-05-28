@@ -37,7 +37,7 @@ fun HomeScreen(navController: NavHostController) {
         // Reloads the favorite count on resume
         viewModel.loadFavoriteCount()
     }
-    
+
     val coroutineScope = rememberCoroutineScope()
 
     val sheetState = rememberModalBottomSheetState(

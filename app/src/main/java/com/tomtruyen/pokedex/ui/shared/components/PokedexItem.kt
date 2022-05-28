@@ -73,7 +73,7 @@ fun PokedexItem(
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 17.sp)
                 )
                 Text(
-                    text = "Nr. ${pokemon.id}",
+                    text = "Nr. ${pokemon.id.toString().padStart(3, '0')}",
                     style = TextStyle(color = colorResource(id = R.color.light_grey), fontSize = 15.sp)
                 )
             }
