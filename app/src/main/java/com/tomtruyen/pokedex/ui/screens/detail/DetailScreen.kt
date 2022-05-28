@@ -83,14 +83,18 @@ fun DetailScreen(navController: NavHostController, id: Int, modifier: Modifier =
                             elevation = 0.dp,
                             backgroundColor = Color.White,
                             navigationIcon = {
-                                IconButton(
-                                    onClick = { navController.popBackStack() }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.ArrowBack,
-                                        contentDescription = null,
-                                        tint = Color.Black
-                                    )
+                                BoxWithConstraints {
+                                    if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
+                                        IconButton(
+                                            onClick = { navController.popBackStack() }
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Filled.ArrowBack,
+                                                contentDescription = null,
+                                                tint = Color.Black
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         )

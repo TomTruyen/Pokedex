@@ -1,21 +1,22 @@
 package com.tomtruyen.pokedex.ui.screens.team
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.tomtruyen.pokedex.R
+import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
+import com.tomtruyen.pokedex.ui.screens.favorite.FavoriteScreenContent
+import com.tomtruyen.pokedex.ui.screens.favorite.FavoriteScreenViewModel
 import com.tomtruyen.pokedex.ui.shared.components.Message
 import com.tomtruyen.pokedex.ui.shared.components.PokedexItem
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
@@ -31,12 +32,44 @@ fun TeamScreen(navController: NavHostController) {
         TeamScreenViewModel(repository = get())
     })
 
+    BoxWithConstraints {
+        if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
+            TeamScreenContent(viewModel = viewModel, navController = navController)
+        } else {
+            var selectedId by remember { mutableStateOf(-1) }
+
+            Row {
+                TeamScreenContent(
+                    navController = navController,
+                    viewModel = viewModel,
+                    modifier = Modifier.weight(1f),
+                    onClickPokemon = {
+                        selectedId = it
+                    }
+                )
+                DetailScreen(
+                    navController = navController,
+                    id = selectedId,
+                    modifier = Modifier.weight(2f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TeamScreenContent(
+    navController: NavHostController,
+    viewModel: TeamScreenViewModel,
+    modifier: Modifier = Modifier,
+    onClickPokemon: ((Int) -> Unit)? = null
+) {
     val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
     val pokemon by remember { viewModel.pokemon }
 
     CollapsingToolbarScaffold(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
             .background(
@@ -69,7 +102,12 @@ fun TeamScreen(navController: NavHostController) {
                 modifier = Modifier.padding(16.dp)
             ) {
                 itemsIndexed(items = pokemon) { _, entry ->
-                    PokedexItem(pokemon = entry, navController = navController, elevation = 0.dp)
+                    PokedexItem(
+                        pokemon = entry,
+                        navController = navController,
+                        elevation = 0.dp,
+                        onClick = onClickPokemon
+                    )
                 }
             }
         }
