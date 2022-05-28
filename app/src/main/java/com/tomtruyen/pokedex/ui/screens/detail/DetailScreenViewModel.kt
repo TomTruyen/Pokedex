@@ -13,17 +13,19 @@ import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @Suppress("StaticFieldLeak")
 class DetailScreenViewModel(
     private val context: Context,
-    private val id: Int,
+    var id: Int,
     private val repository: PokemonDetailsRepository,
     private val pokemonRepository: PokemonRepository,
     private val favoriteRepository: FavoriteRepository,
     private val teamRepository: TeamRepository
 ): ViewModel() {
+
     var pokemon = mutableStateOf<PokemonDetails?>(null);
     var error = mutableStateOf("")
     var isFavorite = mutableStateOf(false)
@@ -42,10 +44,13 @@ class DetailScreenViewModel(
         load()
     }
 
-    private fun load() {
+    fun load() {
+        error.value = ""
+        isLoading.value = true
+
         viewModelScope.launch {
             try {
-                if(id == -1) throw Exception()
+                if(id == -1) throw Exception("Selecteer een pokémon om te laden")
 
                 isFavorite.value = favoriteRepository.exists(id)
 
