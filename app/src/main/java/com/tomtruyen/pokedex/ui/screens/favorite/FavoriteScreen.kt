@@ -62,7 +62,7 @@ fun FavoriteScreen(navController: NavHostController) {
             modifier = Modifier.padding(16.dp)
         ) {
             itemsIndexed(items = pokemon) { _, entry ->
-                PokedexItem(pokemon = entry, navController = navController)
+                PokedexItem(pokemon = entry, navController = navController, elevation = 0.dp)
             }
         }
     }
