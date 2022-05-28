@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
 
 @Composable
-fun Loader() {
+fun Loader(modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition()
     val angle by infiniteTransition.animateFloat(
         initialValue = 0F,
@@ -27,7 +27,7 @@ fun Loader() {
     )
 
     Column(
-        modifier = Modifier.fillMaxSize().graphicsLayer {
+        modifier = modifier.fillMaxSize().graphicsLayer {
             rotationZ = angle
         },
         verticalArrangement = Arrangement.Center,
