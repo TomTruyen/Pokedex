@@ -39,6 +39,7 @@ import com.tomtruyen.pokedex.utils.PokemonUtils
 fun PokedexItem(
     pokemon: BasePokemon,
     navController: NavHostController,
+    onClick: ((Int) -> Unit)? = null,
     color: Color = Color.White,
     elevation: Dp = 1.dp,
 ) {
@@ -49,14 +50,18 @@ fun PokedexItem(
         shape = RoundedCornerShape(10.dp),
         backgroundColor = color,
         elevation = elevation
-
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-                    navController.navigate(ScreenUtils.toDetail(pokemon.id))
+                if(onClick != null) {
+                    onClick(pokemon.id)
+                    return@clickable
                 }
-                .padding(16.dp)
+
+                navController.navigate(ScreenUtils.toDetail(pokemon.id))
+            }
+            .padding(16.dp)
         ) {
             AsyncImage(
                 model = pokemon.sprites["front_default"],
