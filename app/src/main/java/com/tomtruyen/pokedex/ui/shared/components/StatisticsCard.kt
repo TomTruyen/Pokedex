@@ -23,6 +23,7 @@ fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
         Card(
             modifier = Modifier.padding(top = 8.dp, bottom = 28.dp),
             shape = RoundedCornerShape(10.dp),
+            elevation = 0.dp
         ) {
             BoxWithConstraints {
                 if (maxWidth < integerResource(id = R.integer.large_screen_size).dp) {

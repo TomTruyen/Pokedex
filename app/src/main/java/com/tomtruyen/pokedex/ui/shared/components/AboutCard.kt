@@ -21,6 +21,7 @@ fun AboutCard(pokemon: PokemonDetails) {
         Card(
             modifier = Modifier.padding(top = 12.dp, bottom = 28.dp),
             shape = RoundedCornerShape(10.dp),
+            elevation = 0.dp
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
                 Row(modifier = Modifier.padding(vertical = 8.dp)) {

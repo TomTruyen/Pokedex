@@ -23,6 +23,7 @@ fun MovesCard(moves: List<PokemonMove>) {
         Card(
             modifier = Modifier.padding(top = 8.dp, bottom = 28.dp),
             shape = RoundedCornerShape(10.dp),
+            elevation = 0.dp
         ) {
             HorizontalPager(
                 modifier = Modifier
