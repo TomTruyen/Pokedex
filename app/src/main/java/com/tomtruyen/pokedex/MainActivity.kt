@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                             content = {
                                 DetailScreen(
                                     navController,
-                                    it.arguments?.getString("pokemonId")?.toInt()
+                                    it.arguments?.getString("pokemonId")?.toInt() ?: -1
                                 )
                             }
                         )
