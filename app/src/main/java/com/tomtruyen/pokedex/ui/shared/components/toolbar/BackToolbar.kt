@@ -25,7 +25,7 @@ import com.tomtruyen.pokedex.models.PokemonDetails
 import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable
-fun CollapsingToolbarScope.FavoriteToolbar(
+fun CollapsingToolbarScope.BackToolbar(
     title: String,
     textSize: TextUnit,
     navController: NavHostController,

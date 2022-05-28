@@ -22,7 +22,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
-import com.tomtruyen.pokedex.ui.shared.components.toolbar.FavoriteToolbar
+import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 
 @Composable
 fun FavoriteScreen(navController: NavHostController) {
@@ -53,7 +53,7 @@ fun FavoriteScreen(navController: NavHostController) {
             val textSize =
                 (20 + (34 - 12) * toolbarScaffoldState.toolbarState.progress).sp
 
-            FavoriteToolbar(
+            BackToolbar(
                 title = "Favorieten",
                 textSize = textSize,
                 navController = navController,
