@@ -8,6 +8,7 @@ import com.tomtruyen.pokedex.database.repository.FavoriteRepository
 import com.tomtruyen.pokedex.database.repository.PokemonDetailsRepository
 import com.tomtruyen.pokedex.database.repository.PokemonRepository
 import com.tomtruyen.pokedex.database.repository.TeamRepository
+import com.tomtruyen.pokedex.event.RxEvent
 import com.tomtruyen.pokedex.models.FavoritePokemon
 import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.models.PokemonMove
@@ -102,7 +103,6 @@ class DetailScreenViewModel(
 
     private fun loadTeam() {
         viewModelScope.launch {
-
             isTeam.value = teamRepository.exists(id)
             teamCount.value = teamRepository.count()
         }
@@ -126,6 +126,8 @@ class DetailScreenViewModel(
                 }
 
                 isFavorite.value = favoriteRepository.exists(pokemon.id)
+
+                RxBus.publish(RxEvent.RefreshFavorites())
             }
         }
     }
@@ -143,6 +145,7 @@ class DetailScreenViewModel(
                     )
                 )
 
+                RxBus.publish(RxEvent.RefreshTeam())
                 loadTeam()
             }
         }
@@ -154,6 +157,7 @@ class DetailScreenViewModel(
             if (pokemon != null) {
                 teamRepository.delete(pokemon.id)
 
+                RxBus.publish(RxEvent.RefreshTeam())
                 loadTeam()
             }
         }

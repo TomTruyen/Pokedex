@@ -8,9 +8,11 @@ import com.tomtruyen.pokedex.database.repository.FavoriteRepository
 import com.tomtruyen.pokedex.database.repository.PokemonRepository
 import com.tomtruyen.pokedex.database.repository.TeamRepository
 import com.tomtruyen.pokedex.enums.Sort
+import com.tomtruyen.pokedex.event.RxEvent
 import com.tomtruyen.pokedex.models.Pokemon
 import com.tomtruyen.pokedex.service.PokemonApi
 import com.tomtruyen.pokedex.utils.NetworkUtils
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -36,8 +38,24 @@ class HomeScreenViewModel(
     var sort = mutableStateOf(Sort.NUMERIC_ASC)
     var filterTypes = mutableStateOf<List<String>>(listOf())
 
+    lateinit var teamDisposable: Disposable
+    lateinit var favoriteDisposable: Disposable
+
     init {
         load()
+
+        teamDisposable = RxBus.listen(RxEvent.RefreshTeam::class.java).subscribe {
+            loadTeamCount()
+        }
+
+        favoriteDisposable = RxBus.listen(RxEvent.RefreshFavorites::class.java).subscribe {
+            loadFavoriteCount()
+        }
+    }
+
+    fun destroy() {
+        if(!teamDisposable.isDisposed) teamDisposable.dispose()
+        if(!favoriteDisposable.isDisposed) favoriteDisposable.dispose()
     }
 
     private fun load() {

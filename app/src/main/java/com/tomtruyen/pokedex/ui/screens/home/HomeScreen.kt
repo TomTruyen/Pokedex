@@ -48,6 +48,12 @@ fun HomeScreen(navController: NavHostController) {
         viewModel.loadTeamCount()
     }
 
+    DisposableEffect(key1 = viewModel) {
+        onDispose {
+            viewModel.destroy()
+        }
+    }
+
     val isLoading by remember { viewModel.isLoading }
     val error by remember { viewModel.error }
 
