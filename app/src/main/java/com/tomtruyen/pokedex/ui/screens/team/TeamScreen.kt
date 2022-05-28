@@ -22,6 +22,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import org.koin.androidx.compose.get
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import com.tomtruyen.pokedex.ui.shared.components.Message
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 
 @Composable
@@ -60,11 +61,16 @@ fun TeamScreen(navController: NavHostController) {
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            itemsIndexed(items = pokemon) { _, entry ->
-                PokedexItem(pokemon = entry, navController = navController, elevation = 0.dp)
+
+        if(pokemon.isEmpty()) {
+            Message(text = "Uw team is leeg")
+        } else {
+            LazyColumn(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                itemsIndexed(items = pokemon) { _, entry ->
+                    PokedexItem(pokemon = entry, navController = navController, elevation = 0.dp)
+                }
             }
         }
     }
