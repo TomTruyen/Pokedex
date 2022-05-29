@@ -1,8 +1,11 @@
 package com.tomtruyen.pokedex.ui.screens
 
+import androidx.navigation.NavDeepLink
+import androidx.navigation.navDeepLink
+
 sealed class Screens(val route: String) {
     object Home : Screens("home")
-    object Details : Screens("details/{pokemonId}")
+    object Details : Screens("details/{pokemon}")
     object Favorites : Screens("favorites")
     object Team : Screens("team")
 }
@@ -10,7 +13,11 @@ sealed class Screens(val route: String) {
 class ScreenUtils {
     companion object {
         fun toDetail(pokemonId: Int): String {
-            return Screens.Details.route.replace("{pokemonId}", pokemonId.toString())
+            return Screens.Details.route.replace("{pokemon}", pokemonId.toString())
+        }
+
+        fun getDeepLinks(): List<NavDeepLink> {
+            return listOf(navDeepLink { uriPattern = "pokedex://details/{pokemon}" })
         }
     }
 }
