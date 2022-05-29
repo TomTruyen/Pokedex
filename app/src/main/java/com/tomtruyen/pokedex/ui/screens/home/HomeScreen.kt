@@ -33,7 +33,7 @@ import org.koin.androidx.compose.get
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, pokemonParam: String?) {
     val viewModel: HomeScreenViewModel = viewModel(factory = viewModelFactory {
         HomeScreenViewModel(
             context = LocalContext.current,
@@ -73,7 +73,7 @@ fun HomeScreen(navController: NavHostController) {
                 if (maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
                     HomeScreenContent(navController = navController, viewModel = viewModel)
                 } else {
-                    var selectedId by remember { mutableStateOf(-1) }
+                    var selectedId by remember { mutableStateOf<String?>(pokemonParam) }
 
                     Row {
                         HomeScreenContent(
@@ -81,15 +81,15 @@ fun HomeScreen(navController: NavHostController) {
                             viewModel = viewModel,
                             modifier = Modifier.weight(1f),
                             onClickPokemon = {
-                                selectedId = it
+                                selectedId = it.toString()
                             }
                         )
                         DetailScreen(
                             navController = navController,
-                            id = selectedId,
+                            pokemonParam = selectedId,
                             modifier = Modifier.weight(2f),
                             onClickPokemon = {
-                                selectedId = it
+                                selectedId = it.toString()
                             }
                         )
                     }

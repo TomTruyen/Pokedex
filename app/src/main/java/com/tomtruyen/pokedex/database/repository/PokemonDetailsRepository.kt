@@ -11,6 +11,9 @@ interface PokemonDetailsRepository {
     @Query("SELECT * FROM pokemon_details WHERE id = :id")
     suspend fun getById(id: Int): PokemonDetails
 
+    @Query("SELECT * FROM pokemon_details WHERE name = :name")
+    suspend fun getByName(name: String): PokemonDetails
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(pokemon: PokemonDetails)
 }

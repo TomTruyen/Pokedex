@@ -45,13 +45,14 @@ import org.koin.androidx.compose.get
 @Composable
 fun DetailScreen(
     navController: NavHostController,
-    id: Int, modifier: Modifier = Modifier,
+    pokemonParam: String?,
+    modifier: Modifier = Modifier,
     onClickPokemon: ((Int) -> Unit)? = null
 ) {
     val viewModel: DetailScreenViewModel = viewModel(factory = viewModelFactory {
         DetailScreenViewModel(
             context = LocalContext.current,
-            id = id,
+            pokemonParam = pokemonParam,
             repository = get(),
             pokemonRepository = get(),
             favoriteRepository = get(),
@@ -60,8 +61,8 @@ fun DetailScreen(
     })
 
     SideEffect {
-        if (viewModel.id != id) {
-            viewModel.id = id
+        if (!viewModel.pokemonParam.equals(pokemonParam)) {
+            viewModel.pokemonParam = pokemonParam
             viewModel.load()
         }
     }

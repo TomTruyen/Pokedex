@@ -12,8 +12,8 @@ interface PokemonInterface {
     @GET("https://stoplight.io/mocks/appwise-be/pokemon/57519009/pokemon")
     suspend fun getAll(): List<Pokemon>
 
-    @GET("pokemon/{id}")
-    suspend fun getById(@Path("id") id: Int): PokemonDetails
+    @GET("pokemon/{pokemon}")
+    suspend fun getOne(@Path("pokemon") id: String): PokemonDetails
 
     @GET("pokemon-species/{id}")
     suspend fun getSpecies(@Path("id") id: Int): PokemonSpecies

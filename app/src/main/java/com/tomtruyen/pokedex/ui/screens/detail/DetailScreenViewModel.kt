@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 @Suppress("StaticFieldLeak")
 class DetailScreenViewModel(
     private val context: Context,
-    var id: Int,
+    var pokemonParam: String?,
     private val repository: PokemonDetailsRepository,
     private val pokemonRepository: PokemonRepository,
     private val favoriteRepository: FavoriteRepository,
@@ -54,23 +54,21 @@ class DetailScreenViewModel(
 
         viewModelScope.launch {
             try {
-                if (id == -1) throw Exception("Selecteer een pokémon om te laden")
-
-                isFavorite.value = favoriteRepository.exists(id)
-
-                loadTeam()
+                if (pokemonParam == null) throw Exception("Selecteer een pokémon om te laden")
 
                 if (NetworkUtils.hasInternetConnection(context.applicationContext)) {
-                    pokemon.value = PokemonApi.service.getById(id)
+                    pokemon.value = PokemonApi.service.getOne(pokemonParam!!)
 
                     if (pokemon.value != null) {
+                        val pokemon = pokemon.value!!
+
                         // Get evolutions
-                        PokemonApi.service.getSpecies(id).evolutionChain.run {
+                        PokemonApi.service.getSpecies(pokemon.id).evolutionChain.run {
                             val url = this["url"]
 
                             if (url != null) {
                                 PokemonApi.service.getEvolutionChain(url).run {
-                                    pokemon.value!!.evolutions = PokemonUtils.getListOfEvolutions(
+                                    pokemon.evolutions = PokemonUtils.getListOfEvolutions(
                                         pokemonRepository,
                                         this.chain
                                     )
@@ -78,13 +76,22 @@ class DetailScreenViewModel(
                             }
                         }
 
+                        isFavorite.value = favoriteRepository.exists(pokemon.id)
+
+                        loadTeam()
+
                         // Save detail to database
                         coroutineScope {
-                            repository.save(pokemon.value!!)
+                            repository.save(pokemon)
                         }
                     }
                 } else {
-                    pokemon.value = repository.getById(id)
+                    if(pokemonParam!!.all { char -> char.isDigit() }) {
+                        pokemon.value = repository.getById(pokemonParam!!.toInt())
+                    } else {
+                        pokemon.value = repository.getByName(pokemonParam!!)
+                    }
+
                     if (pokemon.value == null) {
                         throw Exception("Couldn't find local data. Please try connecting to the internet.")
                     }
@@ -104,7 +111,7 @@ class DetailScreenViewModel(
 
     private fun loadTeam() {
         viewModelScope.launch {
-            isTeam.value = teamRepository.exists(id)
+            isTeam.value = teamRepository.exists(pokemon.value?.id ?: -1)
             teamCount.value = teamRepository.count()
         }
     }

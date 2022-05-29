@@ -34,7 +34,7 @@ fun FavoriteScreen(navController: NavHostController) {
         if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
             FavoriteScreenContent(viewModel = viewModel, navController = navController)
         } else {
-            var selectedId by remember { mutableStateOf(-1) }
+            var selectedId by remember { mutableStateOf<String?>(null) }
 
             Row {
                 FavoriteScreenContent(
@@ -42,15 +42,15 @@ fun FavoriteScreen(navController: NavHostController) {
                     viewModel = viewModel,
                     modifier = Modifier.weight(1f),
                     onClickPokemon = {
-                        selectedId = it
+                        selectedId = it.toString()
                     }
                 )
                 DetailScreen(
                     navController = navController,
-                    id = selectedId,
+                    pokemonParam = selectedId,
                     modifier = Modifier.weight(2f),
                     onClickPokemon = {
-                        selectedId = it
+                        selectedId = it.toString()
                     }
                 )
             }
