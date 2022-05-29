@@ -82,7 +82,7 @@ The requirements of both the project as the platform in which it was developed
 
 ✔️ Networking using Retrofit
 
-❌ Styles and Themes
+❓ Styles and Themes --> Default theming is used, but hasnt been optimized to make the app look perfect on Dark Theme
 
 ✔️ Databinding --> Using ViewModels + by remember in the Composables to achieve this
 
@@ -114,6 +114,8 @@ kapt "androidx.room:room-compiler:$room_version"<br />
 // Charting library for Radar chart (stats)<br /> implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'<br />
 
 // RxJava (for communication between viewmodels)<br /> implementation "io.reactivex.rxjava3:rxjava:3.1.4"<br />
+
+// SystemUiController (to handle StatusBar color changes) implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
 # Deeplink test<br />
 
