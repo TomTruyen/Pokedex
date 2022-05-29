@@ -1,5 +1,6 @@
 package com.tomtruyen.pokedex.ui.screens.home
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.screens.Screens
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
@@ -44,6 +46,11 @@ fun HomeScreen(navController: NavHostController, pokemonParam: String?) {
         )
     })
 
+    val isDarkTheme = isSystemInDarkTheme()
+    val systemUiController = rememberSystemUiController()
+    val state by remember { viewModel.state }
+    val error by remember { viewModel.error }
+
     SideEffect {
         // Reloads the favorite count on resume
         // RxJava is used for tablets (split-screen)
@@ -51,6 +58,9 @@ fun HomeScreen(navController: NavHostController, pokemonParam: String?) {
         // This is a workaround to make sure the data is updated
         viewModel.loadFavoriteCount()
         viewModel.loadTeamCount()
+
+        val color = if(isDarkTheme) Color.Black else Color.White
+        systemUiController.setStatusBarColor(color = color)
     }
 
     DisposableEffect(key1 = viewModel) {
@@ -59,8 +69,6 @@ fun HomeScreen(navController: NavHostController, pokemonParam: String?) {
         }
     }
 
-    val state by remember { viewModel.state }
-    val error by remember { viewModel.error }
 
     when (state) {
         ViewState.LOADING -> {

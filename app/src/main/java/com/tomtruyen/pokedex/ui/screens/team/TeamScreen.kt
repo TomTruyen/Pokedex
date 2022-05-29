@@ -1,5 +1,6 @@
 package com.tomtruyen.pokedex.ui.screens.team
 
+import android.os.Handler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.shared.components.Message
@@ -20,6 +22,9 @@ import com.tomtruyen.pokedex.ui.shared.components.PokedexItem
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import com.tomtruyen.pokedex.viewmodel.TeamScreenViewModel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -31,7 +36,13 @@ fun TeamScreen(navController: NavHostController) {
         TeamScreenViewModel(repository = get())
     })
 
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(color = Color(70, 70, 156))
+    }
+
     BoxWithConstraints {
+
         if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
             TeamScreenContent(viewModel = viewModel, navController = navController)
         } else {
@@ -96,6 +107,7 @@ fun TeamScreenContent(
             )
         }
     ) {
+
 
         if (pokemon.isEmpty()) {
             Message(text = "Uw team is leeg")

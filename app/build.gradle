@@ -100,4 +100,7 @@ dependencies {
 
     // RxJava (for communication between viewmodels)
     implementation "io.reactivex.rxjava3:rxjava:3.1.4"
+
+    // SystemUiController (to handle StatusBar color changes)
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 }

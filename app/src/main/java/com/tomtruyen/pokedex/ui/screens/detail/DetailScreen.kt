@@ -3,6 +3,7 @@
 package com.tomtruyen.pokedex.ui.screens.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -30,6 +31,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.ui.shared.Evolutions
@@ -64,16 +66,22 @@ fun DetailScreen(
         )
     })
 
+    val isDarkTheme = isSystemInDarkTheme()
+    val systemUiController = rememberSystemUiController()
+    val pokemon by remember { viewModel.pokemon }
+    val state by remember { viewModel.state }
+    val error by remember { viewModel.error }
+
     SideEffect {
         if (!viewModel.pokemonParam.equals(pokemonParam)) {
             viewModel.pokemonParam = pokemonParam
             viewModel.load()
         }
+
+        val color = if(isDarkTheme) Color.Black else Color.White
+        systemUiController.setStatusBarColor(color = color)
     }
 
-    val pokemon by remember { viewModel.pokemon }
-    val state by remember { viewModel.state }
-    val error by remember { viewModel.error }
 
     if (state == ViewState.LOADING) {
         Loader(modifier = modifier)
@@ -91,6 +99,14 @@ fun DetailScreen(
                     }
                 )
             } else {
+                SideEffect {
+                    if(pokemon != null) {
+                        systemUiController.setStatusBarColor(
+                            color = PokemonTypeUtils.find(pokemon!!.types.first().type["name"] ?: "").background.first()
+                        )
+                    }
+                }
+
                 pokemon?.let { pokemon ->
                     DetailScreenContent(
                         pokemon = pokemon,
@@ -125,7 +141,9 @@ private fun DetailScreenContent(
                 .fillMaxHeight()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = PokemonTypeUtils.find(pokemon.types.first().type["name"] ?: "").background
+                        colors = PokemonTypeUtils.find(
+                            pokemon.types.first().type["name"] ?: ""
+                        ).background
                     )
                 ),
             state = toolbarScaffoldState,

@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
 import com.tomtruyen.pokedex.ui.shared.components.Message
@@ -30,6 +31,11 @@ fun FavoriteScreen(navController: NavHostController) {
     val viewModel: FavoriteScreenViewModel = viewModel(factory = viewModelFactory {
         FavoriteScreenViewModel(repository = get())
     })
+
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(color = Color(101, 203, 154))
+    }
 
     BoxWithConstraints {
         if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
