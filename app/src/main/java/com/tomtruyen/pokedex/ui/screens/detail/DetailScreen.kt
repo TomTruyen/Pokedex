@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import com.tomtruyen.pokedex.ui.shared.components.*
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.enums.ViewState
+import com.tomtruyen.pokedex.ui.shared.components.toolbar.ErrorToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import com.tomtruyen.pokedex.viewmodel.DetailScreenViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -82,28 +84,7 @@ fun DetailScreen(
         ) {
             if (state == ViewState.ERROR) {
                 Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = { },
-                            elevation = 0.dp,
-                            backgroundColor = Color.White,
-                            navigationIcon = {
-                                BoxWithConstraints {
-                                    if(maxWidth < integerResource(id = R.integer.large_screen_size).dp) {
-                                        IconButton(
-                                            onClick = { navController.popBackStack() }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Filled.ArrowBack,
-                                                contentDescription = null,
-                                                tint = Color.Black
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        )
-                    },
+                    topBar = { ErrorToolbar(navController = navController) },
                     content = {
                         Error(error = error)
                     }
