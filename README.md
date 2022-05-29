@@ -20,21 +20,75 @@ The requirements of both the project as the platform in which it was developed
 
 ### Required
 
-✔️ Trainers can see a list of Pokémon with some general information, such as name, number, picture and types..<br /> ✔️ Trainers can search for Pokémon by name and number..<br /> ✔️ Trainers can see the details of a Pokémon, with the general info (name, number, picture, types) but also things like abilities, move set and stats..<br /> ✔️ Trainers can see a bigger version of the picture of a Pokémon (from the details of one). Include zoom & pan. (for web: we’re looking for a lightbox component).<br /> ✔️ Trainers can mark a Pokémon as favourite (or remove it from favourites)..<br /> ✔️ Trainers have a separate list with only their favourite Pokémon..<br /> ✔️ Trainers can use the app offline for content they’ve already viewed. [NOT FOR WEB].<br />
+✔️ Trainers can see a list of Pokémon with some general information, such as name, number, picture and types.. 
+
+✔️ Trainers can search for Pokémon by name and number..
+
+✔️ Trainers can see the details of a Pokémon, with the general info (name, number, picture, types) but also things like abilities, move set and stats..
+
+✔️ Trainers can see a bigger version of the picture of a Pokémon (from the details of one). Include zoom & pan. (for web: we’re looking for a lightbox component)
+
+✔️ Trainers can mark a Pokémon as favourite (or remove it from favourites)..
+
+✔️ Trainers have a separate list with only their favourite Pokémon.
+
+✔️ Trainers can use the app offline for content they’ve already viewed. [NOT FOR WEB]
+
+
 
 ### Nice to have
 
-✔️ Besides their favourites, trainers would also like to manage their team of Pokémon. A trainer’s team is limited to 6 Pokémon..<br /> ✔️ [NOT FOR WEB] Quite a few trainers have small devices. The list header (title + search) is quite large, it should collapse when scrolling..<br /> ✔️ Trainers would like to see more than one picture for Pokémon if available on the detail screen (think carousel like UI)..<br /> ✔️ Trainers would like to see the evolutions of a Pokémon if available, from the detail screen..<br /> ✔️ Trainers are always on the road in search of new Pokémon so they don’t always have the best connection. The customer would like to have loading and error indicators when data can not be found or it takes long too long. .<br /> ✔️ Some trainers have large devices. Your implementation should scale gracefully to larger screens. Even better would be to have a “split view”, with the list of Pokémon on the left, and the details of one on the right..<br /> ✔️ Some trainers are forgetful, and don’t remember the name or number of a pokemon. Searching by type (such as “fire”) should also be possible..<br /> ❌ [NOT FOR WEB] Trainers would like to share a Pokémon with other people. When sharing provide as content the name of a Pokémon, their picture (sprite) and URL..<br /> ✔️ [NOT FOR WEB] Trainers would like to link to a Pokémon in the app from somewhere else. This is called a deeplink, the format should be pokedex://details/eevee or pokedex://details/133..<br /> ✔️ Trainers are used to seeing the stats of a Pokémon in the typical hexagon graph..<br />
+✔️ Besides their favourites, trainers would also like to manage their team of Pokémon. A trainer’s team is limited to 6 Pokémon..
+
+✔️ [NOT FOR WEB] Quite a few trainers have small devices. The list header (title + search) is quite large, it should collapse when scrolling.
+
+✔️ Trainers would like to see more than one picture for Pokémon if available on the detail screen (think carousel like UI).
+
+✔️ Trainers would like to see the evolutions of a Pokémon if available, from the detail screen.
+
+✔️ Trainers are always on the road in search of new Pokémon so they don’t always have the best connection. The customer would like to have loading and error indicators when data can not be found or it takes long too long.
+
+✔️ Some trainers have large devices. Your implementation should scale gracefully to larger screens. Even better would be to have a “split view”, with the list of Pokémon on the left, and the details of one on the right..
+
+✔️ Some trainers are forgetful, and don’t remember the name or number of a pokemon. Searching by type (such as “fire”) should also be possible.
+
+✔️ [NOT FOR WEB] Trainers would like to share a Pokémon with other people. When sharing provide as content the name of a Pokémon, their picture (sprite) and URL
+
+✔️ [NOT FOR WEB] Trainers would like to link to a Pokémon in the app from somewhere else. This is called a deeplink, the format should be pokedex://details/eevee or pokedex://details/133
+
+✔️ Trainers are used to seeing the stats of a Pokémon in the typical hexagon graph..<br />
 
 ## Platform specifics
 
 ### Required
 
-✔️ Kotlin.<br /> ✔️ XML or Jetpack Compose --> Jetpack compose.<br /> ✔️ Use native UI components as needed.<br /> ✔️ Navigation: replace fragment and start activity or Navigation Components --> Used a SingleActivity application (which is what jetpack compose is made for) + made use of NavHostController in MainActivity.kt instead of an XML file with the navigation definitions, this has been done to keep everything in kotlin files.<br /> ✔️ Gradle.<br /> ✔️ Free choice in architecture (MVC, MVVM, …), but must have a clear separation between layers such as network, data/model, etc… --> MVVM.<br />
+✔️ Kotlin
+
+✔️ XML or Jetpack Compose --> Jetpack compose
+
+✔️ Use native UI components as needed
+
+✔️ Navigation: replace fragment and start activity or Navigation Components --> Used a SingleActivity application (which is what jetpack compose is made for) + made use of NavHostController in MainActivity.kt instead of an XML file with the navigation definitions, this has been done to keep everything in kotlin files
+
+✔️ Gradle
+
+✔️ Free choice in architecture (MVC, MVVM, …), but must have a clear separation between layers such as network, data/model, etc… --> MVVM
 
 ### Nice to have
 
-✔️ Coroutines and Flows --> Coroutines was used with mutableStateOf for state management.<br /> ✔️ Data storage using Room or Realm --> Room.<br /> ❌ Unit Tests or other tests.<br /> ✔️ Networking using Retrofit.<br /> ❌ Styles and Themes.<br /> ✔️ Databinding --> Using ViewModels + by remember in the Composables to achieve this.<br /> ✔️ Image loading using Glide, Picasso or Coil --> Coil (AsyncImage).<br />
+✔️ Coroutines and Flows --> Coroutines was used with mutableStateOf for state management
+
+✔️ Data storage using Room or Realm --> Room
+
+❌ Unit Tests or other tests
+
+✔️ Networking using Retrofit
+
+❌ Styles and Themes
+
+✔️ Databinding --> Using ViewModels + by remember in the Composables to achieve this
+
+✔️ Image loading using Glide, Picasso or Coil --> Coil (AsyncImage)
 
 # Libraries/packages
 
