@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
 
 @Composable
-fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier) {
+fun SortItem(icon: Int, iconColor: Color = colorResource(id = R.color.light_grey), text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier) {
     var rowModifier = modifier
         .fillMaxWidth()
         .height(40.dp)
@@ -57,7 +57,7 @@ fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit, mo
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
-            tint = colorResource(id = R.color.light_grey)
+            tint = iconColor
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(

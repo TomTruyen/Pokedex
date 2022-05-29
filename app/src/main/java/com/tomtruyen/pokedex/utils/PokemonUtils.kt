@@ -169,5 +169,29 @@ class PokemonUtils {
 
             return evolutionList
         }
+
+        fun getTypeIcon(type: String): Int? {
+            return when (type.lowercase()) {
+                "grass" -> R.drawable.ic_grass_type
+                "bug" -> R.drawable.ic_bug_type
+                "fire" -> R.drawable.ic_fire_type
+                "water" -> R.drawable.ic_water_type
+                "fighting" -> R.drawable.ic_fighting_type
+                "normal" -> R.drawable.ic_normal_type
+                "electric" -> R.drawable.ic_electric_type
+                "psychic" -> R.drawable.ic_psychic_type
+                "poison" -> R.drawable.ic_poison_type
+                "ghost" -> R.drawable.ic_ghost_type
+                "rock" -> R.drawable.ic_rock_type
+                "ground" -> R.drawable.ic_ground_type
+                "dark" -> R.drawable.ic_dark_type
+                "ice" -> R.drawable.ic_ice_type
+                "flying" -> R.drawable.ic_flying_type
+                "dragon" -> R.drawable.ic_dragon_type
+                "fairy" -> R.drawable.ic_fairy_type
+                "steel" -> R.drawable.ic_steel_type
+                else -> null
+            }
+        }
     }
 }

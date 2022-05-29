@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -19,7 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tomtruyen.pokedex.R
-import com.tomtruyen.pokedex.ui.shared.components.TypeFilterItem
+import com.tomtruyen.pokedex.enums.Sort
+import com.tomtruyen.pokedex.ui.shared.components.SortItem
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.launch
 
@@ -85,22 +87,16 @@ fun FilterTypeBottomSheet(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(types) { type ->
-                val color = colorResource(id = PokemonUtils.getTypeColor(type))
-                val backgroundAlpha = if (filterTypes.contains(type)) 1f else 0.25f
-
-                TypeFilterItem(
-                    text = type.replaceFirstChar { it.uppercase() },
-                    onClick = { onClick(type) },
-                    modifier = Modifier
-                        .padding(vertical = 5.dp)
-                        .border(
-                            width = 1.dp,
-                            color = color,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(color = color.copy(backgroundAlpha))
-                )
+                PokemonUtils.getTypeIcon(type)?.let { icon ->
+                    SortItem(
+                        icon = icon,
+                        iconColor = Color.Unspecified,
+                        text = type.replaceFirstChar { it.uppercase() },
+                        selected = filterTypes.contains(type),
+                        onClick = { onClick(type) },
+                        modifier = Modifier.padding(vertical = 5.dp)
+                    )
+                }
             }
         }
     }
