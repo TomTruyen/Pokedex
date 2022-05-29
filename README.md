@@ -20,7 +20,7 @@ The requirements of both the project as the platform in which it was developed
 
 ### Required
 
-✔️ Trainers can see a list of Pokémon with some general information, such as name, number, picture and types.. 
+✔️ Trainers can see a list of Pokémon with some general information, such as name, number, picture and types..
 
 ✔️ Trainers can search for Pokémon by name and number..
 
@@ -33,8 +33,6 @@ The requirements of both the project as the platform in which it was developed
 ✔️ Trainers have a separate list with only their favourite Pokémon.
 
 ✔️ Trainers can use the app offline for content they’ve already viewed. [NOT FOR WEB]
-
-
 
 ### Nice to have
 
@@ -88,7 +86,7 @@ The requirements of both the project as the platform in which it was developed
 
 ✔️ Databinding --> Using ViewModels + by remember in the Composables to achieve this
 
-✔️ Image loading using Glide, Picasso or Coil --> Coil (AsyncImage)
+✔️ Image loading using Glide, Picasso or Coil --> Coil (AsyncImage) & Picasso to easily share the image (downloads image locally and sends it without requiring imageviews)
 
 # Libraries/packages
 
