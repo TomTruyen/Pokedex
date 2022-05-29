@@ -13,14 +13,14 @@ import org.jetbrains.annotations.NotNull
     ListPokemonStatisticConverter::class,
     ListPokemonMoveConverter::class,
     ListPokemonConverter::class,
-    MapStringAnyTypeConverter::class
+    PokemonSpritesConverter::class,
 )
 data class PokemonDetails(
     @PrimaryKey
     @NotNull
     override val id: Int,
     override val name: String,
-    override val sprites: Map<String, Any>,
+    override val sprites: PokemonSprites,
     override val types: List<PokemonType>,
     val abilities: List<PokemonAbility>,
     val baseExperience: Int,

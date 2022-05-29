@@ -91,7 +91,7 @@ fun CollapsingToolbarScope.DetailToolbar(
         IconButton(
             onClick = {
                 // Load image
-                Picasso.get().load(pokemon.sprites["front_default"] as String).into(
+                Picasso.get().load(pokemon.sprites.front).into(
                     object: Target {
                         override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                             // Fix: exposed beyond app through StrictMode

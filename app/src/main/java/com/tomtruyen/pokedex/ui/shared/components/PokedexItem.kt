@@ -54,7 +54,7 @@ fun PokedexItem(
                 .padding(16.dp)
         ) {
             AsyncImage(
-                model = pokemon.sprites["front_default"],
+                model = pokemon.sprites.front,
                 contentDescription = null,
                 modifier = Modifier
                     .height(50.dp)
