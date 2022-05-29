@@ -1,4 +1,4 @@
-package com.tomtruyen.pokedex.ui.screens.home
+package com.tomtruyen.pokedex.viewmodel
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf

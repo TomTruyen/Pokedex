@@ -37,6 +37,7 @@ import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.enums.ViewState
 import com.tomtruyen.pokedex.utils.viewModelFactory
+import com.tomtruyen.pokedex.viewmodel.DetailScreenViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState

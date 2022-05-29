@@ -19,6 +19,7 @@ import com.tomtruyen.pokedex.ui.shared.components.Message
 import com.tomtruyen.pokedex.ui.shared.components.PokedexItem
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
+import com.tomtruyen.pokedex.viewmodel.FavoriteScreenViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState

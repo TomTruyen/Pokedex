@@ -25,6 +25,7 @@ import com.tomtruyen.pokedex.ui.shared.components.sheets.FilterTypeBottomSheet
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.HomeToolbar
 import com.tomtruyen.pokedex.enums.ViewState
 import com.tomtruyen.pokedex.utils.viewModelFactory
+import com.tomtruyen.pokedex.viewmodel.HomeScreenViewModel
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy

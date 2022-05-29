@@ -1,4 +1,4 @@
-package com.tomtruyen.pokedex.ui.screens.team
+package com.tomtruyen.pokedex.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

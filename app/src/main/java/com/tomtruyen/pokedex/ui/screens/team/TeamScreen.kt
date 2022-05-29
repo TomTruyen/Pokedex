@@ -15,12 +15,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.ui.screens.detail.DetailScreen
-import com.tomtruyen.pokedex.ui.screens.favorite.FavoriteScreenContent
-import com.tomtruyen.pokedex.ui.screens.favorite.FavoriteScreenViewModel
 import com.tomtruyen.pokedex.ui.shared.components.Message
 import com.tomtruyen.pokedex.ui.shared.components.PokedexItem
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.BackToolbar
 import com.tomtruyen.pokedex.utils.viewModelFactory
+import com.tomtruyen.pokedex.viewmodel.TeamScreenViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
