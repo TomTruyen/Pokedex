@@ -22,6 +22,7 @@ import coil.compose.AsyncImage
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.models.BasePokemon
 import com.tomtruyen.pokedex.ui.screens.ScreenUtils
+import com.tomtruyen.pokedex.utils.PokemonTypeUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 @Composable
@@ -79,7 +80,7 @@ fun PokedexItem(
                 pokemon.types.map {
                     PokemonTypeChip(
                         type = it.type["name"] ?: "",
-                        color = PokemonUtils.getTypeColor(it.type["name"] ?: "")
+                        color = PokemonTypeUtils.find(it.type["name"] ?: "").color
                     )
                     Spacer(modifier = Modifier.size(5.dp))
                 }

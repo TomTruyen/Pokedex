@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.tomtruyen.pokedex.R
 import com.tomtruyen.pokedex.enums.Sort
 import com.tomtruyen.pokedex.ui.shared.components.SortItem
+import com.tomtruyen.pokedex.utils.PokemonTypeUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,7 @@ fun FilterTypeBottomSheet(
     onClick: (String) -> Unit,
     onClear: () -> Unit
 ) {
-    val types = PokemonUtils.getAllTypes()
+    val types = PokemonTypeUtils.getAllTypes()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -87,7 +88,7 @@ fun FilterTypeBottomSheet(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(types) { type ->
-                PokemonUtils.getTypeIcon(type)?.let { icon ->
+                PokemonTypeUtils.find(type).icon.let { icon ->
                     SortItem(
                         icon = icon,
                         iconColor = Color.Unspecified,

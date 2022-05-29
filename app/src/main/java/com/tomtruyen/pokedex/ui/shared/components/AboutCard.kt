@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.models.PokemonDetails
+import com.tomtruyen.pokedex.utils.PokemonTypeUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 @Composable
@@ -34,7 +35,7 @@ fun AboutCard(pokemon: PokemonDetails) {
                         pokemon.types.map {
                             PokemonTypeChip(
                                 type = it.type["name"] ?: "",
-                                color = PokemonUtils.getTypeColor(it.type["name"] ?: ""),
+                                color = PokemonTypeUtils.find(it.type["name"] ?: "").color,
                                 modifier = Modifier.padding(end = 5.dp)
                             )
                         }

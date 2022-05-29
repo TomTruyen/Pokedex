@@ -38,6 +38,7 @@ import com.tomtruyen.pokedex.ui.shared.components.toolbar.DetailToolbar
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import com.tomtruyen.pokedex.enums.ViewState
 import com.tomtruyen.pokedex.ui.shared.components.toolbar.ErrorToolbar
+import com.tomtruyen.pokedex.utils.PokemonTypeUtils
 import com.tomtruyen.pokedex.utils.viewModelFactory
 import com.tomtruyen.pokedex.viewmodel.DetailScreenViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -124,9 +125,7 @@ private fun DetailScreenContent(
                 .fillMaxHeight()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = PokemonUtils.getDetailBackgroundGradient(
-                            pokemon.types.first().type["name"] ?: ""
-                        ),
+                        colors = PokemonTypeUtils.find(pokemon.types.first().type["name"] ?: "").background
                     )
                 ),
             state = toolbarScaffoldState,

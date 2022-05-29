@@ -11,13 +11,17 @@ import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.tomtruyen.pokedex.models.PokemonDetails
+import com.tomtruyen.pokedex.utils.PokemonTypeUtils
 import com.tomtruyen.pokedex.utils.PokemonUtils
 
 
 @Composable
 fun PokemonStatsChart(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
     val type = pokemon.types.first().type["name"] ?: ""
-    val color = ContextCompat.getColor(LocalContext.current, PokemonUtils.getTypeColor(type))
+    val color = ContextCompat.getColor(
+        LocalContext.current,
+        PokemonTypeUtils.find(type).color
+    )
 
     AndroidView(
         modifier = modifier,
