@@ -74,6 +74,7 @@ dependencies {
 
     // AsyncImage
     implementation "io.coil-kt:coil-compose:2.0.0-rc01"
+    implementation 'com.squareup.picasso:picasso:2.8'
 
     // Collapsing Toolbar
     implementation "me.onebone:toolbar-compose:2.3.2"

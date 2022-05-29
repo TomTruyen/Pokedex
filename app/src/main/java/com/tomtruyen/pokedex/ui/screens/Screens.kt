@@ -19,6 +19,10 @@ class ScreenUtils {
         fun getDeepLinks(): List<NavDeepLink> {
             return listOf(navDeepLink { uriPattern = "pokedex://details/{pokemon}" })
         }
+
+        fun getDetailDeepLink(name: String): String {
+            return "pokedex://details/$name"
+        }
     }
 }
 
