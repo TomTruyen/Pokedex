@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +22,7 @@ fun AboutCard(pokemon: PokemonDetails) {
         CardTitle(text = "Info")
         Card(
             modifier = Modifier.padding(top = 12.dp, bottom = 28.dp),
-            shape = RoundedCornerShape(10.dp),
+            shape = MaterialTheme.shapes.medium,
             elevation = 0.dp
         ) {
             Column(modifier = Modifier.padding(20.dp)) {

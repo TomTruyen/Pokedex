@@ -3,6 +3,7 @@ package com.tomtruyen.pokedex.ui.shared.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +23,7 @@ fun StatisticsCard(pokemon: PokemonDetails, modifier: Modifier = Modifier) {
         CardTitle(text = "Statistieken")
         Card(
             modifier = Modifier.padding(top = 8.dp, bottom = 28.dp),
-            shape = RoundedCornerShape(10.dp),
+            shape = MaterialTheme.shapes.medium,
             elevation = 0.dp
         ) {
             BoxWithConstraints {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,9 +31,9 @@ fun SortItem(icon: Int, iconColor: Color = colorResource(id = R.color.light_grey
         .height(40.dp)
         .background(
             color = colorResource(id = R.color.background_light_grey),
-            shape = RoundedCornerShape(10.dp)
+            shape = MaterialTheme.shapes.medium
         )
-        .clip(RoundedCornerShape(10.dp))
+        .clip(MaterialTheme.shapes.medium)
         .clickable { onClick() }
 
     if (selected) {
@@ -45,7 +46,7 @@ fun SortItem(icon: Int, iconColor: Color = colorResource(id = R.color.light_grey
                     )
                 ),
                 width = 1.dp,
-                shape = RoundedCornerShape(10.dp)
+                shape = MaterialTheme.shapes.medium
             )
         )
     }

@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +28,7 @@ fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) 
             .fillMaxWidth()
             .background(
                 color = colorResource(id = R.color.background_light_grey),
-                shape = RoundedCornerShape(10.dp),
+                shape = MaterialTheme.shapes.medium,
             )
             .padding(8.dp),
         keyboardOptions = KeyboardOptions(

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,9 +36,9 @@ fun MenuCard(
                 brush = Brush.horizontalGradient(
                     colors = colors
                 ),
-                shape = RoundedCornerShape(10.dp),
+                shape = MaterialTheme.shapes.medium,
             ),
-        shape = RoundedCornerShape(10.dp),
+        shape = MaterialTheme.shapes.medium,
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
         onClick = onClick
