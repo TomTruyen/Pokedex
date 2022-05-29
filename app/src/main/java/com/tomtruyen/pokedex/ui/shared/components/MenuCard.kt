@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -22,16 +22,23 @@ import com.tomtruyen.pokedex.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -> Unit, modifier: Modifier) {
+fun MenuCard(
+    title: String,
+    subtitle: String,
+    colors: List<Color>,
+    onClick: () -> Unit,
+    modifier: Modifier
+) {
     Card(
-        modifier = modifier.height(100.dp)
+        modifier = modifier
+            .height(100.dp)
             .background(
                 brush = Brush.horizontalGradient(
                     colors = colors
                 ),
-                shape = RoundedCornerShape(10.dp),
+                shape = MaterialTheme.shapes.medium,
             ),
-        shape = RoundedCornerShape(10.dp),
+        shape = MaterialTheme.shapes.medium,
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
         onClick = onClick
@@ -43,7 +50,8 @@ fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -
                 contentDescription = null
             )
             Column(
-                modifier = Modifier.background(Color.Transparent)
+                modifier = Modifier
+                    .background(Color.Transparent)
                     .padding(horizontal = 15.dp, vertical = 10.dp)
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Bottom
@@ -51,7 +59,11 @@ fun MenuCard(title: String, subtitle: String, colors: List<Color>, onClick: () -
                 Text(
 
                     text = title,
-                    style = TextStyle(color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    style = TextStyle(
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
                 )
                 Text(
                     text = subtitle,

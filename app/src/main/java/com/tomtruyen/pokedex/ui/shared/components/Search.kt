@@ -28,7 +28,7 @@ fun Search(value: String, placeholder: String, onValueChange: (String) -> Unit) 
             .fillMaxWidth()
             .background(
                 color = colorResource(id = R.color.background_light_grey),
-                shape = RoundedCornerShape(10.dp),
+                shape = MaterialTheme.shapes.medium,
             )
             .padding(8.dp),
         keyboardOptions = KeyboardOptions(

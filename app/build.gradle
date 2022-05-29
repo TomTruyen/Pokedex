@@ -74,8 +74,7 @@ dependencies {
 
     // AsyncImage
     implementation "io.coil-kt:coil-compose:2.0.0-rc01"
-
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    implementation 'com.squareup.picasso:picasso:2.8'
 
     // Collapsing Toolbar
     implementation "me.onebone:toolbar-compose:2.3.2"
@@ -95,4 +94,13 @@ dependencies {
 
     // Swipe to refresh
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+
+    // Charting library for Radar chart (stats)
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // RxJava (for communication between viewmodels)
+    implementation "io.reactivex.rxjava3:rxjava:3.1.4"
+
+    // SystemUiController (to handle StatusBar color changes)
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 }

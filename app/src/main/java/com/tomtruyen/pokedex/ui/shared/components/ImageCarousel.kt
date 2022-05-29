@@ -1,9 +1,11 @@
 package com.tomtruyen.pokedex.ui.shared.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.*
@@ -18,8 +20,8 @@ import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.R
+import com.tomtruyen.pokedex.models.PokemonDetails
 import com.tomtruyen.pokedex.utils.PokemonUtils
 import kotlinx.coroutines.launch
 
@@ -32,8 +34,8 @@ fun ImageCarousel(pokemon: PokemonDetails) {
     val coroutineScope = rememberCoroutineScope()
     var scale by remember { mutableStateOf(1f) }
 
-    val state = rememberTransformableState {
-            zoomChange, _, _ ->  scale *= zoomChange
+    val state = rememberTransformableState { zoomChange, _, _ ->
+        scale *= zoomChange
     }
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -50,7 +52,8 @@ fun ImageCarousel(pokemon: PokemonDetails) {
                     .graphicsLayer(
                         scaleX = scale,
                         scaleY = scale,
-                    ).aspectRatio(1f)
+                    )
+                    .aspectRatio(1f)
                     .transformable(state = state),
                 alignment = Alignment.Center
             )
@@ -59,7 +62,7 @@ fun ImageCarousel(pokemon: PokemonDetails) {
         IconButton(
             onClick = {
                 coroutineScope.launch {
-                    if(pagerState.currentPage == 0) {
+                    if (pagerState.currentPage == 0) {
                         pagerState.scrollToPage(pagerState.pageCount - 1)
                     } else {
                         pagerState.scrollToPage(pagerState.currentPage - 1)
@@ -78,7 +81,7 @@ fun ImageCarousel(pokemon: PokemonDetails) {
         IconButton(
             onClick = {
                 coroutineScope.launch {
-                    if(pagerState.currentPage == pagerState.pageCount - 1) {
+                    if (pagerState.currentPage == pagerState.pageCount - 1) {
                         pagerState.scrollToPage(0)
                     } else {
                         pagerState.scrollToPage(pagerState.currentPage + 1)

@@ -6,9 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,21 +23,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.tomtruyen.pokedex.R
-import com.tomtruyen.pokedex.enums.Sort
 
 @Composable
-fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  modifier: Modifier) {
+fun SortItem(icon: Int, iconColor: Color = colorResource(id = R.color.light_grey), text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier) {
     var rowModifier = modifier
         .fillMaxWidth()
         .height(40.dp)
         .background(
             color = colorResource(id = R.color.background_light_grey),
-            shape = RoundedCornerShape(10.dp)
+            shape = MaterialTheme.shapes.medium
         )
-        .clip(RoundedCornerShape(10.dp))
+        .clip(MaterialTheme.shapes.medium)
         .clickable { onClick() }
 
-    if(selected) {
+    if (selected) {
         rowModifier = rowModifier.then(
             Modifier.border(
                 brush = Brush.horizontalGradient(
@@ -48,7 +46,7 @@ fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  m
                     )
                 ),
                 width = 1.dp,
-                shape = RoundedCornerShape(10.dp)
+                shape = MaterialTheme.shapes.medium
             )
         )
     }
@@ -60,7 +58,7 @@ fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  m
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
-            tint = colorResource(id = R.color.light_grey)
+            tint = iconColor
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
@@ -68,7 +66,7 @@ fun SortItem(icon: Int, text: String, selected: Boolean, onClick: () -> Unit,  m
             modifier = Modifier.weight(1f)
         )
 
-        if(selected) {
+        if (selected) {
             Icon(
                 modifier = Modifier
                     .graphicsLayer(alpha = 0.99f)
